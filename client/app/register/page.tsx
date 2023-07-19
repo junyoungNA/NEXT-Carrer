@@ -4,7 +4,7 @@ import Link from "next/link";
 import Inputgroup from "../components/Inputgroup";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import axios from "../api/axios";
+import axios from "../util/api/axios"; //axios인스턴스
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +38,7 @@ const Register = () => {
             <div className="text-center ">
               <Link href={"/"} className="text-2xl font-bold ">
                 Next-Carrer
-              </Link>
+              </Link>   
               <p className="my-7">
                 환영합니다! 여러분의 비지니스 성장을
                 <br /> 도모할 인재를 영입하세요!

@@ -3,16 +3,17 @@
 import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import Inputgroup from "../components/Inputgroup";
-// import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import axios from "../api/axios"; //axios인스턴스
+import axios from "../util/api/axios"; //axios인스턴스
+import { useAuthDispatch } from "../context/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErros] = useState<any>({});
   const router = useRouter();
+  const dispatch = useAuthDispatch();
   const handleSubmit = async (event : FormEvent) => {
       event.preventDefault();
       try {
@@ -20,7 +21,8 @@ const Login = () => {
               email,
               password,
           });
-          router.push('/login');
+          dispatch('LOGIN',res.data.user);
+          // router.push('/login');
       }catch (error : any){
           console.log('error',error.response.data);
           setErros(error.response?.data || {});
