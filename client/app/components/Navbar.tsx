@@ -4,12 +4,12 @@ import axios from "axios";
 
 const Navbar: React.FC<{}> = () => {
   return (
-    <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-14 px-5 bg-white">
+    <header className="fixed inset-x-0 top-0 z-10 flex items-center justify-between px-5 bg-white border-b-2 border-t-1 h-14">
       <span className="text-2xl font-semibold text-gray-400">
         <Link href="/">NEXT-Carrer</Link>
       </span>
       <div className="flex">
-        <button className="w-20 px-2 mr-2 text-sm text-white bg-gray-400 rounded text-center h-7">
+        <button className="w-20 px-2 mr-2 text-sm text-center text-white bg-gray-400 rounded h-7">
           로그아웃
         </button>
         <Link
@@ -25,7 +25,7 @@ const Navbar: React.FC<{}> = () => {
           회원가입
         </Link>
       </div>
-    </div>
+    </header>
   );
 };
 

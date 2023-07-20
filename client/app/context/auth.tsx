@@ -1,5 +1,5 @@
 'use client'
-import axios from "axios";
+// import axios from "axios";
 import { User } from "../util/types";
 import { createContext, useContext, useEffect, useReducer } from "react";
 
@@ -53,7 +53,7 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
         authenticated: false,
         loading:true,
     });
-    console.log(state, 'state');
+
     const dispatch = (type : string, payload? : any) => {
         console.log('type', type, payload);
         defaultDispatch({type,payload});

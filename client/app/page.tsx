@@ -1,10 +1,20 @@
-import Image from 'next/image'
+import Carousel from "./components/Carousel";
 
-export default function Home() {
+const CaroulselIMG = [
+  '/images/wanted.webp',
+  // '/images/wanted2.webp',
+  // '/images/wanted3.webp',
+]
+
+const Home = () =>  {
   return (
-    <main>
-      <div className=''></div>
-      
+    <main className="mt-20">
+      <section>
+        <Carousel images={CaroulselIMG}></Carousel>
+      </section>
     </main>
   )
 }
+
+
+export default Home;

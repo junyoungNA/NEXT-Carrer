@@ -6,14 +6,18 @@ import Inputgroup from "../components/Inputgroup";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import axios from "../util/api/axios"; //axios인스턴스
-import { useAuthDispatch } from "../context/auth";
+import { useAuthDispatch, useAuthState } from "../context/auth";
 
 const Login = () => {
+  const {user, authenticated} = useAuthState();
+  console.log(user, 'user');
+  console.log(authenticated, 'authenticated');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErros] = useState<any>({});
   const router = useRouter();
   const dispatch = useAuthDispatch();
+  
   const handleSubmit = async (event : FormEvent) => {
       event.preventDefault();
       try {

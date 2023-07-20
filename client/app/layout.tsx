@@ -22,12 +22,12 @@ export default function RootLayout({
 {
   return (
     <html lang="en">
-    
+  
       <body className={inter.className}>
       <AuthProvider>
         <Navbar></Navbar>
         {children}
-      </AuthProvider>
+        </AuthProvider>
       </body>
     </html>
   );
