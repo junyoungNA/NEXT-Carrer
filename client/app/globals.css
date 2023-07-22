@@ -6,6 +6,10 @@
     /* 스크롤바를 숨기기 위해 ::-webkit-scrollbar를 사용합니다. */
     /* 이 CSS는 Webkit 기반 브라우저 (예: Chrome, Safari)에서 작동합니다. */
     /* Firefox 및 IE에서는 스크롤바가 보일 수 있습니다. */
+  body {
+    overflow-x: hidden;
+  }
+
     .hide-scrollbar::-webkit-scrollbar {
       width: 0.5em;
     }

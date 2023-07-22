@@ -22,7 +22,7 @@ const Carousel: React.FC<Props> = ({images}) => {
   useEffect(() => {
     if (images.length !== 0) {
       const startData = [images[0], images[1]];
-      const endData = [images[images.length - 1], images[images.length - 2]];
+      const endData = [images[images.length - 2] ,images[images.length - 1]];
       const newList = [...endData, ...images, ...startData];
       setCurrList(newList)
     }
@@ -30,29 +30,26 @@ const Carousel: React.FC<Props> = ({images}) => {
   
   const moveToNthSlide = (index: number) => {
     setTimeout(() => {
-      setCurrIndex(index)
+      setCurrIndex(index);
       if (carouselRef.current !== null) {
-        carouselRef.current.style.transition = ''
+        carouselRef.current.style.transition = '';
         console.log( carouselRef.current.style.transition, '초기화');
       }
-    }, 200)
+      
+    }, 1000)
   }
 
   const handleSwipe = (direction: number) => {
     const newIndex = currIndex + direction
     console.log(newIndex,'확인');
-    if (newIndex === currList.length - 3) {
-      moveToNthSlide(0);
-    }  
-    else if (newIndex === -3) {
-      console.log(newIndex,'0으로들어옴');
+    if (newIndex === images.length || newIndex === -images.length ) {
+      console.log('+1에 들어옴')
       moveToNthSlide(0);
     }
-
     setCurrIndex((prev) => prev + direction);
     
     if (carouselRef.current !== null) {
-      carouselRef.current.style.transition = 'all 0.5s ease-in-out';
+      carouselRef.current.style.transition = 'all 1s ease-in-out';
     }
   }
 
@@ -79,7 +76,7 @@ const Carousel: React.FC<Props> = ({images}) => {
         {/*사진 넘기는 버튼*/}
         <div className='absolute -translate-x-1/2 left-1/2'>
           <div
-            className={`relative flex  m-auto transition duration-300 ease-in-out `} ref={carouselRef}>
+            className={`relative flex  m-auto `} ref={carouselRef}>
             {currList?.map((image , id) => (
               <div key={id} className="flex w-[1024px] mx-4 border-2 h-96 ">
                 
