@@ -10,7 +10,6 @@ const Home = () =>  {
   return (
     
     <main className="mt-10 hide-scrollbar">
-      Sc
       <section>
         <Carousel images={CaroulselIMG}></Carousel>
       </section>

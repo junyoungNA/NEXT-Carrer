@@ -41,9 +41,7 @@ const Carousel: React.FC<Props> = ({images}) => {
 
   const handleSwipe = (direction: number) => {
     const newIndex = currIndex + direction
-    console.log(newIndex,'확인');
     if (newIndex === images.length || newIndex === -images.length ) {
-      console.log('+1에 들어옴')
       moveToNthSlide(0);
     }
     setCurrIndex((prev) => prev + direction);
@@ -53,14 +51,14 @@ const Carousel: React.FC<Props> = ({images}) => {
     }
   }
 
-  //자동으로 캐러셀 움직이게 2초마다 nextHandler를 호출
-  // useEffect(() => {
-  //   const timeId = setTimeout(() => nextHandler(),5000);
-  //   return () => {
-  //     //클린업으로 setTimeout 이벤트 삭제
-  //     clearTimeout(timeId);
-  //   }
-  // }, [current])
+  // 자동으로 캐러셀 움직이게 2초마다 nextHandler를 호출
+  useEffect(() => {
+    const timeId = setTimeout(() => handleSwipe(1),5000);
+    return () => {
+      //클린업으로 setTimeout 이벤트 삭제
+      clearTimeout(timeId);
+    }
+  }, [currIndex])
 
   useEffect(() => {
     if (carouselRef.current !== null) {
