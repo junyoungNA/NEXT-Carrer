@@ -25,7 +25,8 @@ const EnterpizeCreate: React.FC<{}> = () => {
     const [etc, setEtc] = useState('') //기타사항
     
     const [errors, setErrors] = useState<any>({});
-    const [image, setImage] = useState('/images/noimage.png');
+    const [imageUrl, setImageUrl] = useState<any>('/images/noimage.png');
+    const [file, setFile] = useState<File | null>(null);
     const router = useRouter();
 
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -45,6 +46,7 @@ const EnterpizeCreate: React.FC<{}> = () => {
             console.log(error);
         }
     }
+
     const openFileInput = () => {
         const fileInput = fileInputRef.current;
         if(fileInput) {
@@ -52,13 +54,25 @@ const EnterpizeCreate: React.FC<{}> = () => {
         }
     }
 
+    const handleImage = (event : ChangeEvent<HTMLInputElement>) => {
+        if(!event.target.files) return;
+        
+        setFile(event.target.files[0]);
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = () => {
+            const resultImage = reader.result;
+            setImageUrl(resultImage);
+        }
+    }
+
     return (
         <div className='flex justify-center pt-16 mx-auto mt-11 max-w-7xl '> 
-            <Image src={image} alt={'기업 이미지'}width={100} height={100} className='hidden md:block w-1/2 border-2 border-black h-[600px] object-contain '></Image>
-            <input type="file"  className='' ref={fileInputRef} onChange={openFileInput}/>
+            <Image src={imageUrl} alt={'기업 이미지'}width={100} height={100} className='hidden md:block w-1/2 border-2 border-black h-[600px] object-cover' />
+            <input type="file"  className='' ref={fileInputRef} onChange={handleImage}/>
             <div className='flex flex-col md:w-1/3'>
                 <div className='px-6 bg-white rounded '>
-                    <form >
+                    <form>
                         <div className='relative mb-2'>
                             <Inputgroup placeholder='기업 이름' value={enterprise} setValue={setEnterprise} error={errors.email}/>
                             <Inputgroup placeholder='공고 제목' value={title} setValue={setTitle} error={errors.title}/>

@@ -57,7 +57,8 @@ export default class Enterprise extends BaseEntity {
     @Column()
     username: string;
 
-    //기업 post는 유저당 하나만 가능!
+    //기업 post는 유저당 하나만 가능!\
+    @ManyToOne(() => User, (user) => user.posts)
     @JoinColumn({ name: "username", referencedColumnName: "username" })
     user: User;
 

@@ -18,17 +18,18 @@ dotenv.config();
 
 const createEnterprize = async(req: Request , res : Response, next : NextFunction) => {
     const {name, imageUrn, title, enterprise, carrer, salary, service,  mainwork, qualificate, etc, welfare,  place, endDate, preferential, description} = req.body;
+    console.log(req.body, 'reqbody입니다~')
     try {
         let errors : any = {};
         if(isEmpty(name)) errors.name = '이름은 비워둘 수 없습니다.';
         if(isEmpty(title)) errors.title = '제목은 비워둘 수 없습니다.';
 
         // Enterprise 엔티티에 대한 리포지토리(Repository)를 얻는 부분.
-        const sub = await AppDataSource.getRepository(Enterprise)
+        const isFind = await AppDataSource.getRepository(Enterprise)
         .createQueryBuilder('enterprise') //쿼리 빌더 생성
         .where('lower(enterprise.enterprise)= :enterprise', {enterprise:enterprise.toLowerCase()})
         .getOne();
-        if(sub) errors.name = '기업공고가 이미 존재합니다.';
+        if(isFind) errors.name = '기업공고가 이미 존재합니다.';
         if(Object.keys(errors).length > 0) {
             throw errors;
         }
@@ -100,17 +101,7 @@ const uploadEnterprizeIMG = async (req : Request, res : Response) => {
     try {
         
         let oldImageUrn:string = '';
-        if(type === 'image') {
-            //사용중인 Urn을 저장 (이전 파일을 아래에서 삭제)
-            oldImageUrn = sub.imageUrn || '',
-            //새로운 파일 이름을 urn으로 넣어줍니다.
-
-            sub.imageUrn = req.file?.filename || '';
-        } else if(type === 'banner'){
-            oldImageUrn = sub.bannerUrn || '';
-            sub.bannerUrn = req.file?.filename || '';
-        }
-        // await enterprise.save();
+        await enterprise.save();
 
     } catch(error) {
         console.log(error);
