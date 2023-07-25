@@ -1,4 +1,5 @@
 'use client'
+import axios from "axios";
 // import axios from "axios";
 import { User } from "../util/types";
 import { createContext, useContext, useEffect, useReducer } from "react";
@@ -59,21 +60,21 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
         defaultDispatch({type,payload});
     }
 
-    // useEffect(() => {
-    //     async function loadUser() {
-    //         try {
-    //             const res = await axios.get('/auth/me');
-    //             console.log('resr결과보기 me', res.data );
-    //             dispatch("LOGIN", res.data);
-    //         }catch (error) {
-    //             console.log(error);
-    //         }finally {
-    //             dispatch('STOP_LOADING');
-    //         }
+    useEffect(() => {
+        async function loadUser() {
+            try {
+                const res = await axios.get('/auth/me');
+                console.log('resr결과보기 me', res.data );
+                dispatch("LOGIN", res.data);
+            }catch (error) {
+                console.log(error);
+            }finally {
+                dispatch('STOP_LOADING');
+            }
             
-    //     }
-    //     loadUser();
-    // },[]);
+        }
+        loadUser();
+    },[]);
 
     return (
         <DispatchContext.Provider value={dispatch}>

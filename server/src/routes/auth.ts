@@ -85,7 +85,7 @@ const login = async(req: Request , res : Response) => {
         //쿠키 저장
         res.set('Set-Cookie', cookie.serialize("token", token, {
             httpOnly : true,
-            // secure:process.env.NODE_ENV === 'production',
+            secure:process.env.NODE_ENV === 'production',
             sameSite:'strict',
             maxAge:60* 60 * 24 * 7, // 1week
             path:'/'

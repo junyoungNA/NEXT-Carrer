@@ -10,8 +10,6 @@ import { useAuthDispatch, useAuthState } from "../context/auth";
 
 const Login = () => {
   const {user, authenticated} = useAuthState();
-  console.log(user, 'user');
-  console.log(authenticated, 'authenticated');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErros] = useState<any>({});
@@ -26,7 +24,7 @@ const Login = () => {
               password,
           });
           dispatch('LOGIN',res.data.user);
-          // router.push('/login');
+          router.push('/');
       }catch (error : any){
           console.log('error',error.response.data);
           setErros(error.response?.data || {});

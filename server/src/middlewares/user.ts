@@ -7,7 +7,7 @@ dotenv.config();
 
 export default async(req: Request , res : Response, next : NextFunction) => {
     try {        
-        const token = req.cookies.token;
+        const token = req.cookies.token; //클라이언트에서 받은 토큰 req에 들어서옴!
         if(!token) return next();
 
         const {username} : any = jwt.verify(token, process.env.JWT_SECRET);

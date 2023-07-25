@@ -2,10 +2,10 @@
 import Inputgroup from '@/app/components/Inputgroup';
 import TextGroup from '@/app/components/TextGroup';
 import { Select } from '@mui/material';
-import axios from 'axios';
+import axios from '../../util/api/axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
 
 
 const EnterpizeCreate: React.FC<{}> = () => {
@@ -26,24 +26,35 @@ const EnterpizeCreate: React.FC<{}> = () => {
     
     const [errors, setErrors] = useState<any>({});
     const [imageUrl, setImageUrl] = useState<any>('/images/noimage.png');
-    const [file, setFile] = useState<File | null>(null);
+    const [imgfile, setFile] = useState<File | null>(null);
     const router = useRouter();
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    const uploadImage  = async(event : ChangeEvent<HTMLInputElement>) => {
-        if(event?.target.files === null ) return;
-        const file = event.target.files[0];
-
+    const onSubmitHnadelr = async(e : FormEvent) => {
+        e.preventDefault();
         const formData = new FormData();
-        formData.append('file',file);
-        formData.append('type', fileInputRef.current!.name);
+        formData.append('enterprise',enterprise);
+        formData.append('file',imgfile);
+        formData.append('title', title);
+        formData.append('carrer', carrer);
+        formData.append('salary', salary);
+        formData.append('service', service);
+        formData.append('mainwork', mainwork);
+        formData.append('qualificate', qualificate);
+        formData.append('preferential', preferential);
+        formData.append('endDate', endDate);
+        formData.append('place', place);
+        formData.append('welfare', welfare);
+        formData.append('etc', etc);
+
         try {
-            await axios.post(`/enterprize`, formData, {
-                headers:{"Content-Type":"multipart/form-data"}
-            })
-        }catch(error) {
+        await axios.post(`/enterprise`, formData, {
+            headers:{"Content-Type":"multipart/form-data"},
+        })
+        }catch(error : any) {
             console.log(error);
+            setErrors(error.response?.data || {});
         }
     }
 
@@ -69,10 +80,10 @@ const EnterpizeCreate: React.FC<{}> = () => {
     return (
         <div className='flex justify-center pt-16 mx-auto mt-11 max-w-7xl '> 
             <Image src={imageUrl} alt={'기업 이미지'}width={100} height={100} className='hidden md:block w-1/2 border-2 border-black h-[600px] object-cover' />
-            <input type="file"  className='' ref={fileInputRef} onChange={handleImage}/>
+            <input type="file"  className='h-8 w-60' ref={fileInputRef} onChange={handleImage}/>
             <div className='flex flex-col md:w-1/3'>
                 <div className='px-6 bg-white rounded '>
-                    <form>
+                    <form onSubmit={onSubmitHnadelr}>
                         <div className='relative mb-2'>
                             <Inputgroup placeholder='기업 이름' value={enterprise} setValue={setEnterprise} error={errors.email}/>
                             <Inputgroup placeholder='공고 제목' value={title} setValue={setTitle} error={errors.title}/>

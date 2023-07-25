@@ -6,9 +6,10 @@ import subsRoutes from './routes/subs';
 import postsRoutes from './routes/posts';
 import votesRoutes from './routes/votes';
 import userRoutes from './routes/users';
+import enterprise from './routes/enterprise';
 import cors from 'cors';
 // import dotenv from 'dotenv';
-// import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 // dotenv.config();
 const app = express();
@@ -17,10 +18,11 @@ const origin =process.env.ORIGIN;
 app.use(cors({origin, credentials : true}))
 app.use(express.json());
 app.use(morgan('dev'));
-// app.use(cookieParser());
+app.use(cookieParser()); //쿠키 설정
 
 app.get('/',(_,res) => res.send('running'));
 app.use('/api/auth', authRoutes);
+app.use('/api/enterprise', enterprise);
 // app.use('/api/subs', subsRoutes);
 // app.use('/api/posts', postsRoutes);
 // app.use('/api/votes', votesRoutes);
