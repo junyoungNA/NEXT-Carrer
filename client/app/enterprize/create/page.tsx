@@ -53,7 +53,7 @@ const EnterpizeCreate: React.FC<{}> = () => {
             headers:{"Content-Type":"multipart/form-data"},
         })
         }catch(error : any) {
-            console.log(error);
+            console.log(error.response?.data.error);
             setErrors(error.response?.data || {});
         }
     }
@@ -79,8 +79,9 @@ const EnterpizeCreate: React.FC<{}> = () => {
 
     return (
         <div className='flex justify-center pt-16 mx-auto mt-11 max-w-7xl '> 
-            <Image src={imageUrl} alt={'기업 이미지'}width={100} height={100} className='hidden md:block w-1/2 border-2 border-black h-[600px] object-cover' />
+            <Image src={imageUrl} alt={'기업 이미지'}width={100} height={100} className='hidden md:block w-1/3 border-2 border-black h-[500px] object-cover' />
             <input type="file"  className='h-8 w-60' ref={fileInputRef} onChange={handleImage}/>
+            <small className="font-medium text-red-500">{errors.image}</small>
             <div className='flex flex-col md:w-1/3'>
                 <div className='px-6 bg-white rounded '>
                     <form onSubmit={onSubmitHnadelr}>
