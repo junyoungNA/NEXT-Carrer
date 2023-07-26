@@ -4,6 +4,7 @@ import BaseEntity from './Entity';
 import bcrypt from 'bcryptjs';
 import Post from "./Post";
 import Vote from "./Vote";
+import Enterprise from "./Enterprise";
 
 @Entity('users')
 export class User extends BaseEntity  {
@@ -24,6 +25,10 @@ export class User extends BaseEntity  {
 
     @OneToMany(() => Post,(post) => post.user)
     posts: Post[]
+
+    @OneToMany(() => Enterprise,(enterprise) => enterprise.user)
+    enterprise: Enterprise[]
+
 
     @OneToMany(() => Vote,(vote) => vote.user)
     votes: Vote[]

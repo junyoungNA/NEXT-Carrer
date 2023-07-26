@@ -26,7 +26,7 @@ const EnterpizeCreate: React.FC<{}> = () => {
     
     const [errors, setErrors] = useState<any>({});
     const [imageUrl, setImageUrl] = useState<any>('/images/noimage.png');
-    const [imgfile, setFile] = useState<File | null>(null);
+    const [imgfile, setFile] = useState<any>();
     const router = useRouter();
 
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -85,7 +85,7 @@ const EnterpizeCreate: React.FC<{}> = () => {
                 <div className='px-6 bg-white rounded '>
                     <form onSubmit={onSubmitHnadelr}>
                         <div className='relative mb-2'>
-                            <Inputgroup placeholder='기업 이름' value={enterprise} setValue={setEnterprise} error={errors.email}/>
+                            <Inputgroup placeholder='기업 이름' value={enterprise} setValue={setEnterprise} error={errors.enterprise}/>
                             <Inputgroup placeholder='공고 제목' value={title} setValue={setTitle} error={errors.title}/>
                             <Inputgroup placeholder='경력' value={carrer} setValue={setCarrer} error={errors.carrer}/>
                             <Inputgroup placeholder='급여' value={salary} setValue={setSalary} error={errors.salary}/>

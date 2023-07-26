@@ -4,11 +4,11 @@ import { User } from '../entities/User';
 import userMiddleware from '../middlewares/user';
 import authMiddleware from '../middlewares/auth';
 import { isEmpty } from 'class-validator';
-// import { AppDataSource } from '../data-source';
-import Post from '../entities/Post';
+import { AppDataSource } from '../data-source';
+// import Post from '../entities/Post';
 import Enterprise from '../entities/Enterprise';
 
-import multer, { FileFilterCallback } from 'multer';
+import multer from 'multer';
 import { makeId } from '../utilis/helpers';
 import path from 'path';
 // import { unlinkSync } from 'fs';
@@ -20,25 +20,25 @@ const createEnterprize = async(req: Request , res : Response, next : NextFunctio
     console.log(req.body);
     try {
         let errors : any = {};
-        // if(isEmpty(enterprise)) errors.name = '기업이름은 비워둘 수 없습니다.';
-        // if(isEmpty(title)) errors.title = '공고제목은 비워둘 수 없습니다.';
-        // if(isEmpty(carrer)) errors.title = '권고 경력사항은 비워둘 수 없습니다.';
-        // if(isEmpty(salary)) errors.title = '급여사항은 비워둘 수 없습니다.';
-        // if(isEmpty(service)) errors.title = '서비스 소개 비워둘 수 없습니다.';
-        // if(isEmpty(mainwork)) errors.title = '주요 업무 비워둘 수 없습니다.';
-        // if(isEmpty(qualificate)) errors.title = '자격 요건 비워둘 수 없습니다.';
-        // if(isEmpty(etc)) errors.title = '기타사항 비워둘 수 없습니다.';
-        // if(isEmpty(welfare)) errors.title = '복지는 비워둘 수 없습니다.';
-        // if(isEmpty(place)) errors.title = '근무장소는 비워둘 수 없습니다.';
-        // if(isEmpty(endDate)) errors.title = '공고마감일 비워둘 수 없습니다.';
-        // if(isEmpty(preferential)) errors.title = '우대사항은 비워둘 수 없습니다.';
+        if(isEmpty(enterprise)) errors.enterprise = '기업이름은 비워둘 수 없습니다.';
+        if(isEmpty(title)) errors.title = '공고제목은 비워둘 수 없습니다.';
+        if(isEmpty(carrer)) errors.carrer = '권고 경력사항은 비워둘 수 없습니다.';
+        if(isEmpty(salary)) errors.salary = '급여사항은 비워둘 수 없습니다.';
+        if(isEmpty(service)) errors.service = '서비스 소개 비워둘 수 없습니다.';
+        if(isEmpty(mainwork)) errors.mainwork = '주요 업무 비워둘 수 없습니다.';
+        if(isEmpty(qualificate)) errors.qualificate = '자격 요건 비워둘 수 없습니다.';
+        if(isEmpty(etc)) errors.etc = '기타사항 비워둘 수 없습니다.';
+        if(isEmpty(welfare)) errors.welfare = '복지는 비워둘 수 없습니다.';
+        if(isEmpty(place)) errors.place = '근무장소는 비워둘 수 없습니다.';
+        if(isEmpty(endDate)) errors.endDate = '공고마감일 비워둘 수 없습니다.';
+        if(isEmpty(preferential)) errors.preferential = '우대사항은 비워둘 수 없습니다.';
 
         // Enterprise 엔티티에 대한 리포지토리(Repository)를 얻는 부분.
-        // const isFind = await AppDataSource.getRepository(Enterprise)
-        // .createQueryBuilder('enterprise') //쿼리 빌더 생성
-        // .where('lower(enterprise.title)= :title', {title:title.toLowerCase()})
-        // .getOne();
-        // if(isFind) errors.name = '해당 공고제목이 이미 존재합니다.';
+        const isFind = await AppDataSource.getRepository(Enterprise)
+        .createQueryBuilder('enterprise') //쿼리 빌더 생성
+        .where('lower(enterprise.title)= :title', {title:title.toLowerCase()})
+        .getOne();
+        if(isFind) errors.title = '해당 공고제목이 이미 존재합니다.';
         if(Object.keys(errors).length > 0) {
             throw errors;
         }
@@ -50,13 +50,22 @@ const createEnterprize = async(req: Request , res : Response, next : NextFunctio
 
     try {
         const user : User = res.locals.user;
-        // const sub = new Sub();
-        // sub.name = name;
-        // sub.description = description;
-        // sub.title = title;
-        // sub.user = user;
-
-        // await sub.save();
+        const enterpriseData = new Enterprise();
+        enterpriseData.enterprise = enterprise;
+        enterpriseData.title = title;
+        enterpriseData.carrer = carrer;
+        enterpriseData.salary = salary;
+        enterpriseData.service = service;
+        enterpriseData.mainwork = mainwork;
+        enterpriseData.qualificate = qualificate;
+        enterpriseData.preferential = preferential;
+        enterpriseData.endDate = endDate;
+        enterpriseData.place = place;
+        enterpriseData.welfare = welfare;
+        enterpriseData.etc = etc;
+        enterpriseData.user = user;
+        enterpriseData.imageUrn = req.file.filename;
+        await enterpriseData.save();
         return res.json();
     }catch(error) {
         console.log(error);
@@ -69,11 +78,13 @@ const createEnterprize = async(req: Request , res : Response, next : NextFunctio
 const imageFileUpload = multer({
   storage: multer.diskStorage({
     destination: 'public/images',
+    //imge파일 이름의 임의의 문자열넣어 생성
     filename: (_, file, callback) => {
-      const name = makeId(10);
+      const name = makeId(10); //임의의 문자열 만드는 함수
       callback(null, name + path.extname(file.originalname));
     },
   }),
+  //이미지 파일 확인
   fileFilter: (_, file, callback) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       callback(null, true);
@@ -84,6 +95,5 @@ const imageFileUpload = multer({
 }).single('file'); 
 
 const router = Router();
-// router.get('/:name', userMiddleware, authMiddleware, getSub);
-router.post('',userMiddleware, authMiddleware, imageFileUpload ,createEnterprize);
+router.post('/',userMiddleware, authMiddleware, imageFileUpload ,createEnterprize);
 export default router;
