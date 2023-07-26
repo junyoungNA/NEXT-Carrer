@@ -53,7 +53,7 @@ const EnterpizeCreate: React.FC<{}> = () => {
             headers:{"Content-Type":"multipart/form-data"},
         })
         }catch(error : any) {
-            console.log(error.response?.data.error);
+            console.log(error.response?.data);
             setErrors(error.response?.data || {});
         }
     }

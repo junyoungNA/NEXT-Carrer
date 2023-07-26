@@ -5,21 +5,20 @@ import userMiddleware from '../middlewares/user';
 import authMiddleware from '../middlewares/auth';
 import { isEmpty } from 'class-validator';
 import { AppDataSource } from '../data-source';
-// import Post from '../entities/Post';
 import Enterprise from '../entities/Enterprise';
 
 import multer from 'multer';
 import { makeId } from '../utilis/helpers';
 import path from 'path';
-// import { unlinkSync } from 'fs';
+import { unlinkSync } from 'fs';
 
 dotenv.config();
 
 const createEnterprize = async(req: Request , res : Response, next : NextFunction) => {
-    const {enterprise, imageUrn, title, carrer, salary, service,  mainwork, qualificate, etc, welfare,  place, endDate, preferential, description} = req.body;
-    console.log(req.body);
+    const {enterprise, title, carrer, salary, service,  mainwork, qualificate, etc, welfare,  place, endDate, preferential} = req.body;
     try {
         let errors : any = {};
+        if(isEmpty(req.file)) errors.image = '공고이미지를 넣어주세요';
         if(isEmpty(enterprise)) errors.enterprise = '기업이름은 비워둘 수 없습니다.';
         if(isEmpty(title)) errors.title = '공고제목은 비워둘 수 없습니다.';
         if(isEmpty(carrer)) errors.carrer = '권고 경력사항은 비워둘 수 없습니다.';
@@ -40,12 +39,13 @@ const createEnterprize = async(req: Request , res : Response, next : NextFunctio
         .getOne();
         if(isFind) errors.title = '해당 공고제목이 이미 존재합니다.';
         if(Object.keys(errors).length > 0) {
+          if(req.file)unlinkSync(`public/images/${req.file.filename}`);
             throw errors;
         }
         
     } catch(error) {
         console.log(error);
-        return res.status(500).json({error});
+        return res.status(500).json(error);
     }
 
     try {
