@@ -18,7 +18,6 @@ const Inputgroup: React.FC<InputGroupProps> = ({
   error,
   setValue,
 }) => {
-  console.log(error, '컴포넌트 에러');
   return (
     <div className={className}>
       <input

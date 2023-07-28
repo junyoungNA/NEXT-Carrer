@@ -9,7 +9,10 @@ const Navbar: React.FC<{}> = () => {
       <span className="text-2xl font-semibold text-gray-400">
         <Link href="/">NEXT-Carrer</Link>
       </span>
-      <div className="flex">
+      <div className="flex ">
+        <Link href={'/companyList'} className="w-20 px-2 pt-1 mr-2 text-lg text-center h-7">채용</Link>
+      </div>
+      <aside className="flex pt-1">
         <button className="w-20 px-2 mr-2 text-sm text-center text-white bg-gray-400 rounded h-7">
           로그아웃
         </button>
@@ -25,9 +28,8 @@ const Navbar: React.FC<{}> = () => {
         >
           회원가입
         </Link>
+      </aside>
       </div>
-      </div>
-     
     </header>
   );
 };

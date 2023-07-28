@@ -1,5 +1,5 @@
 'use client'
-import axios from "axios";
+import axios from "../util/api/axios";
 // import axios from "axios";
 import { User } from "../util/types";
 import { createContext, useContext, useEffect, useReducer } from "react";

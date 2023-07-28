@@ -8,10 +8,10 @@ import votesRoutes from './routes/votes';
 import userRoutes from './routes/users';
 import enterprise from './routes/enterprise';
 import cors from 'cors';
-// import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
-// dotenv.config();
+dotenv.config();
 const app = express();
 const origin =process.env.ORIGIN;
 

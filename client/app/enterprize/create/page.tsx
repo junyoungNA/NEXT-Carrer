@@ -1,19 +1,20 @@
 'use client'
 import Inputgroup from '@/app/components/Inputgroup';
 import TextGroup from '@/app/components/TextGroup';
-import { Select } from '@mui/material';
+import SelectGroup from '@/app/components/SelectGroup';
 import axios from '../../util/api/axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
+import {careerOption} from '../../util/selectoption'
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { useAuthState } from '@/app/context/auth';
 
 
 const EnterpizeCreate: React.FC<{}> = () => {
     const [enterprise, setEnterprise] = useState('');//기업이름
     const [title, setTitle] = useState(''); //공고 제목
     const [carrer, setCarrer] = useState(''); // 경력
-    const [salary, setSalary] = useState(''); //급여
-
+    
     const [service, setService] = useState(''); //서비스 소개
     const [mainwork, setMainwork] = useState(''); //주요 업무
     const [qualificate, setqualificate] = useState('') ;//자격요건
@@ -24,10 +25,16 @@ const EnterpizeCreate: React.FC<{}> = () => {
     const [welfare, setWelfare] = useState('') //복지
     const [etc, setEtc] = useState('') //기타사항
     
+    
     const [errors, setErrors] = useState<any>({});
     const [imageUrl, setImageUrl] = useState<any>('/images/noimage.png');
     const [imgfile, setFile] = useState<any>();
     const router = useRouter();
+    const {authenticated} = useAuthState();
+    
+    useEffect(() => {
+        if(!authenticated) router.push('/login');
+    }, []);
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -38,7 +45,6 @@ const EnterpizeCreate: React.FC<{}> = () => {
         formData.append('file',imgfile);
         formData.append('title', title);
         formData.append('carrer', carrer);
-        formData.append('salary', salary);
         formData.append('service', service);
         formData.append('mainwork', mainwork);
         formData.append('qualificate', qualificate);
@@ -88,17 +94,16 @@ const EnterpizeCreate: React.FC<{}> = () => {
                         <div className='relative mb-2'>
                             <Inputgroup placeholder='기업 이름' value={enterprise} setValue={setEnterprise} error={errors.enterprise}/>
                             <Inputgroup placeholder='공고 제목' value={title} setValue={setTitle} error={errors.title}/>
-                            <Inputgroup placeholder='경력' value={carrer} setValue={setCarrer} error={errors.carrer}/>
-                            <Inputgroup placeholder='급여' value={salary} setValue={setSalary} error={errors.salary}/>
+                            <SelectGroup placeholder='경력' value={carrer} setValue={setCarrer} options={careerOption}  error={errors.carrer}/>
                     
                             <TextGroup placeholder='서비스소개' value={service}  setValue={setService} error={errors.service}/>
                             <TextGroup placeholder='주요 업무' value={mainwork} setValue={setMainwork} error={errors.mainwork}/>
                             <TextGroup placeholder='자격 요건' value={qualificate}  setValue={setqualificate} error={errors.qualificate}/>
                             <TextGroup placeholder='우대 사항' value={preferential} setValue={setPreferential} error={errors.preferential}/>
+                            <TextGroup placeholder='복지/혜택 사항' value={welfare} setValue={setWelfare} error={errors.welfare}/>
+                            <TextGroup placeholder='기타 사항' value={etc} setValue={setEtc} error={errors.etc}/>
                             <input  type='date' value={endDate} onChange ={(e) => setEndDate(e.target.value) } placeholder='공고 마감일'/>
                             <Inputgroup placeholder='근무지' value={place} setValue={setPlace} error={errors.place}/>
-                            <Inputgroup placeholder='복지' value={welfare} setValue={setWelfare} error={errors.welfare}/>
-                            <Inputgroup placeholder='기타 사항' value={etc} setValue={setEtc} error={errors.etc}/>
                             <div className='absolute mb-2 text-sm text-gray-400 select-none' style={{top : 10, right: 10}}>
                                 {title.trim().length}/20
                             </div>

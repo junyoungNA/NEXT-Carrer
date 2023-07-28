@@ -18,9 +18,6 @@ export default class Enterprise extends BaseEntity {
     carrer : string; //경력
 
     @Column({ nullable: true, type: "text" })
-    salary : string; //급여
-
-    @Column({ nullable: true, type: "text" })
     service : string; //서비스 소개
 
     @Column({ nullable: true, type: "text" })

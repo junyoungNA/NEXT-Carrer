@@ -15,14 +15,14 @@ import { unlinkSync } from 'fs';
 dotenv.config();
 
 const createEnterprize = async(req: Request , res : Response, next : NextFunction) => {
-    const {enterprise, title, carrer, salary, service,  mainwork, qualificate, etc, welfare,  place, endDate, preferential} = req.body;
+    const {enterprise, title, carrer, service,  mainwork, qualificate, etc, welfare,  place, endDate, preferential} = req.body;
     try {
         let errors : any = {};
         if(isEmpty(req.file)) errors.image = '공고이미지를 넣어주세요';
         if(isEmpty(enterprise)) errors.enterprise = '기업이름은 비워둘 수 없습니다.';
         if(isEmpty(title)) errors.title = '공고제목은 비워둘 수 없습니다.';
         if(isEmpty(carrer)) errors.carrer = '권고 경력사항은 비워둘 수 없습니다.';
-        if(isEmpty(salary)) errors.salary = '급여사항은 비워둘 수 없습니다.';
+    
         if(isEmpty(service)) errors.service = '서비스 소개 비워둘 수 없습니다.';
         if(isEmpty(mainwork)) errors.mainwork = '주요 업무 비워둘 수 없습니다.';
         if(isEmpty(qualificate)) errors.qualificate = '자격 요건 비워둘 수 없습니다.';
@@ -37,6 +37,7 @@ const createEnterprize = async(req: Request , res : Response, next : NextFunctio
         .createQueryBuilder('enterprise') //쿼리 빌더 생성
         .where('lower(enterprise.title)= :title', {title:title.toLowerCase()})
         .getOne();
+        console.log(isFind);
         if(isFind) errors.title = '해당 공고제목이 이미 존재합니다.';
         if(Object.keys(errors).length > 0) {
           if(req.file)unlinkSync(`public/images/${req.file.filename}`);
@@ -54,7 +55,6 @@ const createEnterprize = async(req: Request , res : Response, next : NextFunctio
         enterpriseData.enterprise = enterprise;
         enterpriseData.title = title;
         enterpriseData.carrer = carrer;
-        enterpriseData.salary = salary;
         enterpriseData.service = service;
         enterpriseData.mainwork = mainwork;
         enterpriseData.qualificate = qualificate;
@@ -95,5 +95,5 @@ const imageFileUpload = multer({
 }).single('file'); 
 
 const router = Router();
-router.post('/',userMiddleware, authMiddleware, imageFileUpload ,createEnterprize);
+router.post('/enterprise',userMiddleware, authMiddleware, imageFileUpload ,createEnterprize);
 export default router;
