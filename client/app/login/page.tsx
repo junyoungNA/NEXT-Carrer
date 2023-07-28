@@ -15,7 +15,9 @@ const Login = () => {
   const [errors, setErros] = useState<any>({});
   const router = useRouter();
   const dispatch = useAuthDispatch();
-  
+  if(authenticated) router.push('/')
+
+
   const handleSubmit = async (event : FormEvent) => {
       event.preventDefault();
       try {
@@ -23,7 +25,7 @@ const Login = () => {
               email,
               password,
           });
-          dispatch('LOGIN',res.data.user);
+          dispatch('LOGIN',res.data?.user);
           router.push('/');
       }catch (error : any){
           console.log('error',error.response.data);
