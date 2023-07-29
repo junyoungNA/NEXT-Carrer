@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import Inputgroup from "../components/Inputgroup";
 import { useRouter } from "next/navigation";
@@ -9,14 +9,16 @@ import axios from "../util/api/axios"; //axios인스턴스
 import { useAuthDispatch, useAuthState } from "../context/auth";
 
 const Login = () => {
-  const {user, authenticated} = useAuthState();
+  const {user, authenticated , loading} = useAuthState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErros] = useState<any>({});
   const router = useRouter();
   const dispatch = useAuthDispatch();
-  if(authenticated) router.push('/')
 
+  useEffect(() => {
+    if(authenticated && !loading){ router.push('/')};
+  }, [])
 
   const handleSubmit = async (event : FormEvent) => {
       event.preventDefault();
@@ -26,7 +28,7 @@ const Login = () => {
               password,
           });
           dispatch('LOGIN',res.data?.user);
-          router.push('/');
+          // router.push('/');
       }catch (error : any){
           console.log('error',error.response.data);
           setErros(error.response?.data || {});

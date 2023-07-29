@@ -30,9 +30,12 @@ const EnterpizeCreate: React.FC<{}> = () => {
     const [imageUrl, setImageUrl] = useState<any>('/images/noimage.png');
     const [imgfile, setFile] = useState<any>();
     const router = useRouter();
-    const {user, authenticated} = useAuthState();
-    console.log(user,authenticated);
-    if(!user) router.push('/login');
+    const {user, authenticated , loading} = useAuthState();
+
+    useEffect(() => {
+        if(!authenticated && !loading){ router.push('/')};
+    }, [])
+    
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 

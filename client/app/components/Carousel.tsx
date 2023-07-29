@@ -63,7 +63,6 @@ const Carousel: React.FC<Props> = ({images}) => {
   useEffect(() => {
     if (carouselRef.current !== null) {
       carouselRef.current.style.transform = `translateX(${currIndex * -1035}px)`;
-      console.log(carouselRef.current.style.transform , '현재');
     }
   }, [currIndex])
 
