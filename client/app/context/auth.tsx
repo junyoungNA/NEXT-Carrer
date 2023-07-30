@@ -1,6 +1,5 @@
 'use client'
 import axios from "../util/api/axios";
-// import axios from "axios";
 import { User } from "../util/types";
 import { createContext, useContext, useEffect, useReducer } from "react";
 
@@ -25,7 +24,8 @@ const StateContext = createContext<State>({
 const DispatchContext = createContext<any>(null);
 
 //useReducer 사용하기
-const  reducer  = (state:State, {type ,payload } : Action) => {
+const reducer = (state:State, {type ,payload } : Action) => {
+
     switch(type) {
         case "LOGIN" :
             return {
@@ -71,7 +71,6 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
             }finally {
                 dispatch('STOP_LOADING');
             }
-            
         }
         loadUser();
     },[]);

@@ -28,6 +28,7 @@ const Login = () => {
               password,
           });
           dispatch('LOGIN',res.data?.user);
+          console.log('auth', authenticated);
           // router.push('/');
       }catch (error : any){
           console.log('error',error.response.data);

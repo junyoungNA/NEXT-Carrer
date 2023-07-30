@@ -2,11 +2,11 @@ import express from 'express';
 import morgan from 'morgan';
 import { AppDataSource } from './data-source';
 import authRoutes from './routes/auth';
-import subsRoutes from './routes/subs';
-import postsRoutes from './routes/posts';
-import votesRoutes from './routes/votes';
+// import subsRoutes from './routes/subs';
+// import postsRoutes from './routes/posts';
+// import votesRoutes from './routes/votes';
 import userRoutes from './routes/users';
-import enterprise from './routes/enterprise';
+import enterpriseRoutes from './routes/enterprise';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
@@ -22,7 +22,7 @@ app.use(cookieParser()); //쿠키 설정
 
 app.get('/',(_,res) => res.send('running'));
 app.use('/api/auth', authRoutes);
-app.use('/api/enterprise', enterprise);
+app.use('/api/enterprise', enterpriseRoutes);
 // app.use('/api/subs', subsRoutes);
 // app.use('/api/posts', postsRoutes);
 // app.use('/api/votes', votesRoutes);

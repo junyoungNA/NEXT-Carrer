@@ -70,9 +70,6 @@ const vote = async (req : Request, res : Response) => {
     
 }
 
-
-
-
 const router = Router();
 router.post('/', userMiddleware, authMiddleware, vote);
 

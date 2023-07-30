@@ -14,6 +14,21 @@ import { unlinkSync } from 'fs';
 
 dotenv.config();
 
+const getPosts =  async(req: Request, res:Response) => {
+  console.log('들어옴');
+  const currentPage : number = (req.query.page || 0) as number;
+  const perPage : number = (req.query.count || 3) as number;
+
+  try {
+      const posts = await Enterprise.find();
+      console.log(posts,'posts');
+      return res.json(posts);
+  }catch (error) {
+      console.log(error);
+      return res.status(500).json({error:'문제가 발생했습니다.'})
+  }
+}
+
 const createEnterprize = async(req: Request , res : Response, next : NextFunction) => {
     const {enterprise, title, carrer, service,  mainwork, qualificate, etc, welfare,  place, endDate, preferential} = req.body;
     try {
@@ -95,5 +110,6 @@ const imageFileUpload = multer({
 }).single('file'); 
 
 const router = Router();
-router.post('/enterprise',userMiddleware, authMiddleware, imageFileUpload ,createEnterprize);
+router.get("/list" , getPosts);
+router.post('/create',userMiddleware, authMiddleware, imageFileUpload ,createEnterprize);
 export default router;

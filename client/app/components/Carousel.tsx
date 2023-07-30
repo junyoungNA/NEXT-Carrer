@@ -33,9 +33,7 @@ const Carousel: React.FC<Props> = ({images}) => {
       setCurrIndex(index);
       if (carouselRef.current !== null) {
         carouselRef.current.style.transition = '';
-        console.log( carouselRef.current.style.transition, '초기화');
       }
-      
     }, 1000)
   }
 

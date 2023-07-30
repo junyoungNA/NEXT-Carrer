@@ -2,10 +2,10 @@
 import Inputgroup from '@/app/components/Inputgroup';
 import TextGroup from '@/app/components/TextGroup';
 import SelectGroup from '@/app/components/SelectGroup';
-import axios from '../../util/api/axios';
+import axios from '../util/api/axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import {careerOption} from '../../util/selectoption'
+import {careerOption} from '../util/selectoption'
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useAuthState } from '@/app/context/auth';
 
@@ -33,8 +33,8 @@ const EnterpizeCreate: React.FC<{}> = () => {
     const {user, authenticated , loading} = useAuthState();
 
     useEffect(() => {
-        if(!authenticated && !loading){ router.push('/')};
-    }, [])
+        if(authenticated=== false && loading === false ){ router.push('/')};
+    }, []);
     
 
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -56,7 +56,7 @@ const EnterpizeCreate: React.FC<{}> = () => {
         formData.append('etc', etc);
 
         try {
-        await axios.post(`/enterprise`, formData, {
+        await axios.post('/enterprise/create', formData, {
             headers:{"Content-Type":"multipart/form-data"},
         })
         }catch(error : any) {
