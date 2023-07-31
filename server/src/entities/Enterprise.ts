@@ -5,7 +5,7 @@ import { User } from './User';
 import Vote from './Vote';
 import { makeId, slugify } from '../utilis/helpers';
 
-@Entity("enterprize")
+@Entity("enterprise")
 export default class Enterprise extends BaseEntity {
     @Index()
     @Column()

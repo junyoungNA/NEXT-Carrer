@@ -6,7 +6,6 @@ dotenv.config();
 
 export default async(_: Request , res : Response, next : NextFunction) => {
     try {        
-        console.log(res, 'auth에서 확인');
         const user:User | undefined = res.locals.user;
         if(!user) throw new Error ('Unauthenticated');
         return next();

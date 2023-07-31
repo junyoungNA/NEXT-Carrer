@@ -6,7 +6,7 @@ import axios from '../util/api/axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {careerOption} from '../util/selectoption'
-import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react'
 import { useAuthState } from '@/app/context/auth';
 
 
@@ -33,17 +33,11 @@ const EnterpizeCreate: React.FC<{}> = () => {
     const {user, authenticated , loading} = useAuthState();
     
     useEffect(() => {
-        console.log(authenticated, loading);
-        if(authenticated=== false){ router.push('/')};
-    }, []);
-
-    const getAuthme = async () => {
-        const cookie = await document.cookie;
-        const result = await axios.get('/auth/me',  {headers:{ cookie}})
-        console.log(result);
-    }
+        if(loading === true) return;
+            console.log(user, authenticated, loading);
+            if(authenticated=== false){ router.push('/')};
+    }, [loading]);
     
-
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const onSubmitHnadelr = async(e : FormEvent) => {
