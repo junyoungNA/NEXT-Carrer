@@ -67,7 +67,7 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
                 console.log('resr결과보기 me', res.data );
                 dispatch("LOGIN", res.data);
             }catch (error) {
-                console.log(error);
+                console.log(error,'에러임다');
             }finally {
                 dispatch('STOP_LOADING');
             }

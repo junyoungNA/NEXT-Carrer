@@ -17,7 +17,8 @@ const Login = () => {
   const dispatch = useAuthDispatch();
 
   useEffect(() => {
-    if(authenticated && !loading){ router.push('/')};
+    // console.log(authenticated,'login페이지 회원유무');
+    if(authenticated && !loading === false){ router.push('/')};
   }, [])
 
   const handleSubmit = async (event : FormEvent) => {
@@ -28,8 +29,7 @@ const Login = () => {
               password,
           });
           dispatch('LOGIN',res.data?.user);
-          console.log('auth', authenticated);
-          // router.push('/');
+          router.push('/');
       }catch (error : any){
           console.log('error',error.response.data);
           setErros(error.response?.data || {});

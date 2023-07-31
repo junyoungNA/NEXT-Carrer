@@ -20,6 +20,7 @@ const mapError = (errors : Object[]) => {
 
 //response에 user정보 보내주기 로그인정보 확인을 위해
 const me = async (_:Request, res:Response) => {
+    console.log(res,'me 결과')
     return res.json(res.locals.user);
 }
 

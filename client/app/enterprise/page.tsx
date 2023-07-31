@@ -31,10 +31,17 @@ const EnterpizeCreate: React.FC<{}> = () => {
     const [imgfile, setFile] = useState<any>();
     const router = useRouter();
     const {user, authenticated , loading} = useAuthState();
-
+    
     useEffect(() => {
-        if(authenticated=== false && loading === false ){ router.push('/')};
+        console.log(authenticated, loading);
+        if(authenticated=== false){ router.push('/')};
     }, []);
+
+    const getAuthme = async () => {
+        const cookie = await document.cookie;
+        const result = await axios.get('/auth/me',  {headers:{ cookie}})
+        console.log(result);
+    }
     
 
     const fileInputRef = useRef<HTMLInputElement>(null)

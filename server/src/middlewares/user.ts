@@ -7,6 +7,7 @@ dotenv.config();
 
 export default async(req: Request , res : Response, next : NextFunction) => {
     try {      
+        console.log(req,'req');
         const token = req.cookies.token; //클라이언트에서 받은 토큰 req에 들어서옴!
         if(!token) return next();
         // unsername 을 가져옴
