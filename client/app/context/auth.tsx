@@ -56,7 +56,7 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
     });
 
     const dispatch = (type : string, payload? : any) => {
-        console.log('type', type, payload);
+        // console.log('type', type, payload);
         defaultDispatch({type,payload});
     }
 
@@ -64,7 +64,7 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
         async function loadUser() {
             try {
                 const res = await axios.get('/auth/me');
-                console.log('resr결과보기 me', res.data );
+                // console.log('resr결과보기 me', res.data );
                 dispatch("LOGIN", res.data);
             }catch (error) {
                 console.log(error,'에러임다');

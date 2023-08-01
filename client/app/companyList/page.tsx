@@ -25,7 +25,7 @@ const CompnayList: React.FC<{}> = () => {
             
     return (
         <div className='h-[900px]'>
-            <div className='m-auto my-12 max-w-7xl'>
+            <div className=''>
                 <div className='flex'>
                     <SelectGroup setValue={setLocation} error= {erros.location}  value={location} options={listLocationOption}></SelectGroup>
                     <SelectGroup setValue={setCarrer} error= {erros.carrer}  value={carrer} options={listCarrerOption}></SelectGroup>
@@ -35,9 +35,9 @@ const CompnayList: React.FC<{}> = () => {
             <hr className='border-t-2'/>
             <div className='m-auto max-w-[1024px]'> 
                 <h2 className='text-xl'> 채용중인 회사</h2>
-                <div className='flex flex-wrap'>
+                <div className='flex flex-wrap justify-center'>
                 {data?.map((company : Company) => 
-                        <Link href={`/companyList/${company.identifier}`} className='m-3 border-2 border-black h-80 w-72' key={company.id}>
+                        <Link href={{pathname:`/companyList/${company.identifier}`, query: {company : JSON.stringify(company)}}} className='m-3 border-2 border-black h-80 w-72' key={company.id}>
                             <Image className='object-cover w-full h-2/3' src={`${company!.imageUrl}`} width={50} height={50} alt='회시 이미지'/>
                             <h3 className='text-lg font-semibold'>{company.title}</h3>
                             <h4>{company.enterprise}</h4>

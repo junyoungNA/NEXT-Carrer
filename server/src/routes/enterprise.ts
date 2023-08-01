@@ -15,13 +15,11 @@ import { unlinkSync } from 'fs';
 dotenv.config();
 
 const getPosts =  async(req: Request, res:Response) => {
-  console.log('들어옴');
   const currentPage : number = (req.query.page || 0) as number;
   const perPage : number = (req.query.count || 3) as number;
 
   try {
       const posts = await Enterprise.find();
-      console.log(posts,'posts');
       return res.json(posts);
   }catch (error) {
       console.log(error);
