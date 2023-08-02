@@ -10,7 +10,7 @@ import Enterprise from '../entities/Enterprise';
 import multer from 'multer';
 import { makeId } from '../utilis/helpers';
 import path from 'path';
-import { unlinkSync } from 'fs';
+import fs, { unlinkSync } from 'fs';
 
 dotenv.config();
 
@@ -26,6 +26,23 @@ const getPosts =  async(req: Request, res:Response) => {
       return res.status(500).json({error:'문제가 발생했습니다.'})
   }
 }
+
+const getImgFile = async(req: Request, res:Response) => {
+  const fileName = req.params.url as string
+  const filePath = path.join( process.cwd(), 'public', 'images', fileName);
+  console.log(filePath,'file');
+  if (fs.existsSync(filePath)) {
+    // 이미지 파일이면 응답으로 전송
+    if (fileName.endsWith('.jpg') || fileName.endsWith('.png')) {
+      res.sendFile(filePath);
+    } else {
+      res.status(400).json({ error: '이미지 파일이 아닙니다.' });
+    }
+  } else {
+    res.status(404).json({ error: '파일을 찾을 수 없습니다.' });
+  }
+};
+  
 
 const createEnterprize = async(req: Request , res : Response, next : NextFunction) => {
     const {enterprise, title, carrer, service,  mainwork, qualificate, etc, welfare,  place, endDate, preferential} = req.body;
@@ -109,5 +126,6 @@ const imageFileUpload = multer({
 
 const router = Router();
 router.get("/list" , getPosts);
+router.get('/image:url', getImgFile);
 router.post('/create',userMiddleware, authMiddleware, imageFileUpload ,createEnterprize);
 export default router;

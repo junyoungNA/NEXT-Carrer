@@ -18,7 +18,7 @@ export interface Company {
     place : string;
     username : string;
     createdAt : string;
-    endDAte:string,
+    endDate:string,
     updatedAt : string;
     imageUrl : string;
     imageUrn : string;

@@ -4,6 +4,7 @@ import { Router,Request,Response } from 'express';
 import Sub from '../entities/Sub';
 import Post from '../entities/Post';
 import Comments from '../entities/Comment';
+import Enterprise from '../entities/Enterprise';
 
 const getPosts =  async(req: Request, res:Response) => {
     const currentPage : number = (req.query.page || 0) as number;
@@ -28,21 +29,18 @@ const getPosts =  async(req: Request, res:Response) => {
 
 
 const getPost = async(req: Request, res:Response) => {
-    const {identifier, slug} = req.params;
-    console.log(identifier)
-    try {
-        const post = await Post.findOneOrFail({
-            where: {identifier, slug},
-            relations : ['sub', 'votes']
-        })
-        if(res.locals.user) {
-            post.setUserVote(res.locals.user);
-        }
-        return res.send(post);
-    } catch(error) {
-        console.log(error);
-        return res.status(404).json({error:'게시물을 찾을 수 없습니다.'});
-    }
+    // const {identifier, slug} = req
+    // console.log(identifier);
+    console.log(req);
+    // try {
+    //     const post = await Enterprise.findOneOrFail({
+    //         where: {identifier},
+    //     })
+    //     return res.send(post);
+    // } catch(error) {
+    //     console.log(error);
+    //     return res.status(404).json({error:'게시물을 찾을 수 없습니다.'});
+    // }
 }
 
 const createPost = async(req: Request, res:Response) => {
