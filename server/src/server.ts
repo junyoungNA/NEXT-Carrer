@@ -10,10 +10,13 @@ import enterpriseRoutes from './routes/enterprise';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import path from 'path'
 
 dotenv.config();
 const app = express();
 const origin =process.env.ORIGIN;
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({origin, credentials : true}))
 app.use(express.json());

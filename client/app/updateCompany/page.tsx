@@ -9,6 +9,7 @@ import {careerOption} from '../util/selectoption'
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react'
 import { useAuthState } from '@/app/context/auth';
 import { Company } from '../util/types';
+import { isIdentifier } from 'typescript';
 
 
 
@@ -37,7 +38,6 @@ const EnterpizeUpdate: React.FC<{}> = () => {
     const [imgfile, setFile] = useState<any>();
     const router = useRouter();
     const {user, authenticated , loading} = useAuthState();
-    
     useEffect(() => {
         if(loading === true) return;
             console.log(user, authenticated, loading);
@@ -61,7 +61,9 @@ const EnterpizeUpdate: React.FC<{}> = () => {
     
     const getFile = async () => {
         try {
-            const res= await axios.get(`/enterprise/image${company.imageUrn}`)
+            const res= await axios.get(`/enterprise/image${company.imageUrn}`);
+            setFile(res.data.imgUrn);
+            console.log(res);
         } catch(error) {
             console.log(error);
         }
@@ -84,6 +86,7 @@ const EnterpizeUpdate: React.FC<{}> = () => {
         formData.append('place', place);
         formData.append('welfare', welfare);
         formData.append('etc', etc);
+        formData.append('identifier',company.identifier);
 
         try {
         await axios.post('/enterprise/update', formData, {
@@ -104,7 +107,7 @@ const EnterpizeUpdate: React.FC<{}> = () => {
 
     const handleImage = (event : ChangeEvent<HTMLInputElement>) => {
         if(!event.target.files) return;
-        
+        console.log(event.target.files[0]);
         setFile(event.target.files[0]);
         const reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]);

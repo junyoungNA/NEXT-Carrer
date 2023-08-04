@@ -28,19 +28,10 @@ const getPosts =  async(req: Request, res:Response) => {
 }
 
 const getImgFile = async(req: Request, res:Response) => {
-  const fileName = req.params.url as string
-  const filePath = path.join( process.cwd(), 'public', 'images', fileName);
-  console.log(filePath,'file');
-  if (fs.existsSync(filePath)) {
-    // 이미지 파일이면 응답으로 전송
-    if (fileName.endsWith('.jpg') || fileName.endsWith('.png')) {
-      res.sendFile(filePath);
-    } else {
-      res.status(400).json({ error: '이미지 파일이 아닙니다.' });
-    }
-  } else {
-    res.status(404).json({ error: '파일을 찾을 수 없습니다.' });
-  }
+  const fileName = req.params.url as string  
+  const imageURN = fileName; 
+
+  res.json({ imageURN });
 };
   
 
@@ -52,7 +43,6 @@ const createEnterprize = async(req: Request , res : Response, next : NextFunctio
         if(isEmpty(enterprise)) errors.enterprise = '기업이름은 비워둘 수 없습니다.';
         if(isEmpty(title)) errors.title = '공고제목은 비워둘 수 없습니다.';
         if(isEmpty(carrer)) errors.carrer = '권고 경력사항은 비워둘 수 없습니다.';
-    
         if(isEmpty(service)) errors.service = '서비스 소개 비워둘 수 없습니다.';
         if(isEmpty(mainwork)) errors.mainwork = '주요 업무 비워둘 수 없습니다.';
         if(isEmpty(qualificate)) errors.qualificate = '자격 요건 비워둘 수 없습니다.';
@@ -78,30 +68,68 @@ const createEnterprize = async(req: Request , res : Response, next : NextFunctio
         console.log(error);
         return res.status(500).json(error);
     }
+  }
 
+  const upload = multer();
+
+  const updateEnterprize = async (req: Request, res: Response, next: NextFunction) => {
+    const { identifier, enterprise,imgUrn, title, carrer, service, mainwork, qualificate, etc, welfare, place, endDate, preferential } = req.body;
     try {
-        const user : User = res.locals.user;
-        const enterpriseData = new Enterprise();
-        enterpriseData.enterprise = enterprise;
-        enterpriseData.title = title;
-        enterpriseData.carrer = carrer;
-        enterpriseData.service = service;
-        enterpriseData.mainwork = mainwork;
-        enterpriseData.qualificate = qualificate;
-        enterpriseData.preferential = preferential;
-        enterpriseData.endDate = endDate;
-        enterpriseData.place = place;
-        enterpriseData.welfare = welfare;
-        enterpriseData.etc = etc;
-        enterpriseData.user = user;
-        enterpriseData.imageUrn = req.file.filename;
-        await enterpriseData.save();
-        return res.json();
-    }catch(error) {
+      let errors: any = {};
+      if (isEmpty(enterprise)) errors.enterprise = '기업이름은 비워둘 수 없습니다.';
+      if (isEmpty(title)) errors.title = '공고제목은 비워둘 수 없습니다.';
+      if (isEmpty(carrer)) errors.carrer = '권고 경력사항은 비워둘 수 없습니다.';
+      if (isEmpty(service)) errors.service = '서비스 소개 비워둘 수 없습니다.';
+      if (isEmpty(mainwork)) errors.mainwork = '주요 업무 비워둘 수 없습니다.';
+      if (isEmpty(qualificate)) errors.qualificate = '자격 요건 비워둘 수 없습니다.';
+      if (isEmpty(etc)) errors.etc = '기타사항 비워둘 수 없습니다.';
+      if (isEmpty(welfare)) errors.welfare = '복지는 비워둘 수 없습니다.';
+      if (isEmpty(place)) errors.place = '근무장소는 비워둘 수 없습니다.';
+      if (isEmpty(endDate)) errors.endDate = '공고마감일 비워둘 수 없습니다.';
+      if (isEmpty(preferential)) errors.preferential = '우대사항은 비워둘 수 없습니다.';
+  
+        if (Object.keys(errors).length > 0) {
+          throw errors;
+        }
+        
+        // 기존 기업 정보 가져오기
+        const existingEnterprize = await Enterprise.findOneByOrFail({identifier});
+    
+        if (!existingEnterprize) {
+          return res.status(404).json({ error: '기업 정보를 찾을 수 없습니다.' });
+        }
+    
+        // 기존 이미지 파일 삭제 및 업데이트할 이미지 파일 처리
+        if (req.file) {
+          if (existingEnterprize.imageUrn) {
+            console.log(req.file.filename);
+            unlinkSync(`public/images/${existingEnterprize.imageUrn}`);
+          }
+          existingEnterprize.imageUrn = req.file.filename;
+        }
+    
+        // 기업 정보 업데이트
+        existingEnterprize.enterprise = enterprise;
+        existingEnterprize.title = title;
+        existingEnterprize.carrer = carrer;
+        existingEnterprize.service = service;
+        existingEnterprize.mainwork = mainwork;
+        existingEnterprize.qualificate = qualificate;
+        existingEnterprize.preferential = preferential;
+        existingEnterprize.endDate = endDate;
+        existingEnterprize.place = place;
+        existingEnterprize.welfare = welfare;
+        existingEnterprize.etc = etc;
+        
+        await existingEnterprize.save();
+    
+        return res.json(existingEnterprize);
+      } catch (error) {
         console.log(error);
-        return res.status(500).json({error});
-    }
-}
+        return res.status(500).json(error);
+      }
+  };
+
 
 //해당파일이 이미지가 맞는지 맞다면 public/image폴더에 저장
 // 이미지 파일 업로드 설정
@@ -128,4 +156,5 @@ const router = Router();
 router.get("/list" , getPosts);
 router.get('/image:url', getImgFile);
 router.post('/create',userMiddleware, authMiddleware, imageFileUpload ,createEnterprize);
+router.post('/update',userMiddleware, authMiddleware ,imageFileUpload, updateEnterprize);
 export default router;
