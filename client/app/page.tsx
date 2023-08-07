@@ -1,6 +1,7 @@
 import Carousel from "./components/Carousel";
 import { SWRConfig } from 'swr';
 import axios from './util/api/axios';
+import PostAddBox from "./components/PostAddBox";
 
 const CaroulselIMG = [
   {img :'/images/wanted.webp',title : '라이프스타일 커머스의 새로운 기준', text : '뷰티셀렉션에서 전 직군 채용 중!'},
@@ -24,6 +25,9 @@ const Home = () =>  {
       <main className="mt-10 hide-scrollbar">
         <section>
           <Carousel images={CaroulselIMG}></Carousel>
+        </section>
+        <section className='border-2 border-black w-[1024px] mx-auto my-10'>
+          <PostAddBox />
         </section>
       </main>
     // </SWRConfig>
