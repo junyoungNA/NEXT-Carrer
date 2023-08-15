@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap'); */
 
   /* 사용자 정의 CSS */
     /* 스크롤바를 숨기기 위해 ::-webkit-scrollbar를 사용합니다. */

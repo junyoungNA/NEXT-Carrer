@@ -1,8 +1,9 @@
 import React from 'react'
 
-const NavItem = () => {
+const NavItem:React.FC<{}> = () => {
     return (
-        <div>
+        <div className='font-roboto'>
+            폰트 테스트하기
         </div>
     )
 }
