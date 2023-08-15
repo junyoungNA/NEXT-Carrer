@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import { AuthProvider } from "./context/auth";
 import axios from './util/api/axios';
 
@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
         <body className={inter.className}>
           <AuthProvider>
-            <Navbar></Navbar>
+            <Navbar/>
             {children}
           </AuthProvider> 
         </body>
