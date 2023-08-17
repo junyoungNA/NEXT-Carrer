@@ -1,6 +1,5 @@
 import Carousel from "./components/Carousel";
 import { SWRConfig } from 'swr';
-import axios from './util/api/axios';
 import PostAddBox from "./components/PostAddBox";
 
 const CaroulselIMG = [
@@ -8,16 +7,6 @@ const CaroulselIMG = [
   {img :'/images/wanted2.webp',title : '요즘 뜨는 로봇 산업 추천 공고', text : '로봇과 함께 하는 조화로운 미래 세상'},
   {img :'/images/wanted4.webp',title : '이번주 신규 포지션', text : '눈여겨볼 이번 주 채용공고를 소개합니다.'},
 ]
-
-
-const fetcher = async (url: string) => {
-  try {
-      const res = await axios.get(url);
-      return res.data
-  } catch(error: any) {
-      throw error.response.data;
-  }
-}
 
 const Home = () =>  {
   return (

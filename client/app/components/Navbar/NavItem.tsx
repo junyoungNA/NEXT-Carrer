@@ -1,9 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
+import {useSession, signIn, signOut} from 'next-auth/react';
 
 const NavItem:React.FC<{}> = () => {
+    const {data: session, status} = useSession();
+    console.log(session, status);
     return (
-        <div className='grid grid-cols-[350px_1fr] gap-28 mx-auto place-items-end text-sm'>
+        <div className='grid grid-cols-[200px_1fr] gap-44 mx-auto place-items-end text-sm'>
             <ul className='flex'>
                 <li> 
                     <Link 
@@ -24,19 +27,24 @@ const NavItem:React.FC<{}> = () => {
                 </li>
             </ul>
             <ul className='flex items-center gap-3'>
-                <li className='w-20 px-2 pt-1 text-center text-blue-500 border border-blue-500 ronded h-7'>
-                    <button>
+                
+                {session?.user
+                    ?
+                    <li className='w-20 px-2 pt-1 text-center text-blue-500 border border-blue-500 ronded h-7'>
+                    <button 
+                        onClick={() => signOut()}>
                         로그아웃
                     </button>
                 </li>
+                :
                 <li className="w-20 px-2 pt-1 text-center text-blue-500 border border-blue-500 ronded h-7"> 
-                    <Link
-                        href="/login"
-                        
+                    <button
+                        onClick={() => signIn()}
                     >
                         로그인
-                    </Link>
-                </li>
+                    </button>
+                </li> 
+                }
                 <li className="w-20 px-2 pt-1 text-center text-white bg-gray-400 rounded h-7">
                     <Link
                     href="/register"
