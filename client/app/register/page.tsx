@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
-import {useForm, FieldValues} from 'react-hook-form';
+import {useForm, FieldValues, SubmitHandler} from 'react-hook-form';
 import Input from "../components/Input";
 import Button from "../components/Button";
 
@@ -22,22 +22,19 @@ const Register = () => {
   }); 
   const router = useRouter();
 
-  // const handleSubmit = async (event : FormEvent) => {
-  //     event.preventDefault();
-  //     try {
-  //         const res =  await axios.post('/auth/register',{
-  //             email,
-  //             password,
-  //             username,
-  //         });
-  //         console.log(res, 'res');
-  //         router.push('/login');
-  //     }catch (error : any){
-  //         console.log(error,'error');
-  //         console.log('error',error.response.data);
-  //         setErros(error.response?.data || {});
-  //     }
-  // }
+  const onSubmit:SubmitHandler<FieldValues> = async (body) => {
+      setLoading(true)
+      try {
+          const {data} =  await axios.post('/api/register',body);
+          console.log(data, 'res');
+          router.push('/login');
+      }catch (error : any){
+          console.log(error,'error');
+          console.log('error',error.response.data);
+      } finally {
+          setLoading(false);
+      }
+  }
 
   return (
     <div className="bg-gray-100">
@@ -54,7 +51,7 @@ const Register = () => {
               </p>
             </div>
           </div>
-          <form >
+          <form  onSubmit={handleSubmit(onSubmit)}>
             <Input
               id="email"
               label="Email"

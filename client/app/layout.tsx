@@ -5,7 +5,7 @@ import {SessionProvider} from 'next-auth/react';
 import { Inter, } from "next/font/google";
 import Navbar from "./components/Navbar/Navbar";
 import { Roboto, Noto_Sans_KR } from "next/font/google"; // Roboto와 한글 NotoSans를 사용합니다.
-import { cls } from "./util/cls";
+import { cls } from "../util/cls";
 
 const notoSansKr = Noto_Sans_KR({
   // preload: true, 기본값

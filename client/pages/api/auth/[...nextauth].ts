@@ -3,7 +3,10 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials"
-const prisma = new PrismaClient();
+import prisma from '../../../util/prismadb';
+
+// prismadb.ts 에서 공통으로 생성해서 가져오기
+// const prisma = new PrismaClient();
 
 export const authOption :NextAuthOptions =  {
     adapter: PrismaAdapter(prisma),
