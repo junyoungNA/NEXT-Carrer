@@ -25,8 +25,9 @@ const Login = () => {
     try {
       const data = signIn('credentials', body);
       //next-auth 에서 제공하는 credentials를 인자로 줘야함
+      router.push('/');
     } catch(error) {
-
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -57,8 +58,9 @@ const Login = () => {
               required
             />
             <Input
-              id="name"
-              label="Name"
+              id="password"
+              label="Password"
+              type="password"
               disabled={isLoading}
               errors={errors}
               register={register}
