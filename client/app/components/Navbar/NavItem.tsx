@@ -1,12 +1,16 @@
 import React from 'react'
 import Link from 'next/link'
-import {useSession, signIn, signOut} from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { signIn, signOut} from 'next-auth/react';
+import { User } from '@prisma/client';
 
-const NavItem:React.FC<{}> = () => {
-    const router = useRouter();
-    const {data: session, status} = useSession();
-    console.log(session);
+
+interface NavItemProps {
+    currentUser ? : User | null;
+}
+
+
+const NavItem:React.FC<NavItemProps> = ({currentUser}) => {
+    console.log(currentUser);
     return (
         <div className='grid grid-cols-[500px_1fr] place-items-end mx-auto text-sm'>
             <ul className='flex items-center pl-8 mx-auto'>
@@ -30,7 +34,7 @@ const NavItem:React.FC<{}> = () => {
             </ul>
             <ul className='flex items-center justify-end gap-5'>
                 
-                {session?.user
+                {currentUser
                     ?
                     <li className='w-20 px-2 pt-1 text-center text-blue-500 border border-blue-500 rounded-lg'>
                     <button 
@@ -41,7 +45,7 @@ const NavItem:React.FC<{}> = () => {
                 :
                 <li className="w-20 px-2 pt-1 text-center text-blue-500 border border-blue-500 rounded-sm "> 
                     <button
-                        onClick={() => router.push('/login') }
+                        onClick={() => signIn() }
                     >
                         로그인
                     </button>

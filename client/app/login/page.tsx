@@ -23,9 +23,10 @@ const Login = () => {
   const onSubmit:SubmitHandler<FieldValues> = async (body) => {
     setLoading(true);
     try {
-      const data = signIn('credentials', body);
+      const data = await signIn('credentials', body);
+      console.log(data);
       //next-auth 에서 제공하는 credentials를 인자로 줘야함
-      router.push('/');
+      // router.push('/');
     } catch(error) {
       console.log(error);
     } finally {

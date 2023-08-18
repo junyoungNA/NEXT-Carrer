@@ -4,11 +4,12 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials"
 import prisma from '../../../util/prismadb';
 import bcrypt from 'bcryptjs';
+import { NextResponse } from "next/server";
 
 // prismadb.ts 에서 공통으로 생성해서 가져오기
 // const prisma = new PrismaClient();
 
-export const authOption :NextAuthOptions =  {
+export const authOptions :NextAuthOptions =  {
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
@@ -59,6 +60,9 @@ export const authOption :NextAuthOptions =  {
         secret : process.env.JWT_SECRET,
         maxAge : 30 * 24 * 60 * 60 //30일
     },
+    pages: {
+        signIn:'/login'
+    },
     callbacks: {
         async jwt({token, user} ){
             return {...token, ...user}
@@ -72,4 +76,4 @@ export const authOption :NextAuthOptions =  {
 };
 
 
-export default NextAuth(authOption);
+export default NextAuth(authOptions);

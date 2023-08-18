@@ -1,5 +1,4 @@
 'use client'
-import axios from '../util/api/axios';
 import React, {  useState } from 'react';
 import useSWR from 'swr';
 import { listLocationOption,listSortOption, listCarrerOption } from '../util/selectoption';

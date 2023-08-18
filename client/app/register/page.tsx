@@ -26,10 +26,8 @@ const Register = () => {
       setLoading(true)
       try {
           const {data} =  await axios.post('/api/register',body);
-          console.log(data, 'res');
           router.push('/login');
       }catch (error : any){
-          console.log(error,'error');
           console.log('error',error.response.data);
       } finally {
           setLoading(false);

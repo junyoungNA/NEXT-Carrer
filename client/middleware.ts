@@ -5,6 +5,7 @@ export {default} from 'next-auth/middleware';
 
 export async function  middleware(req: NextRequest) {
     const session = await getToken({req, secret : process.env.JWT_SECRET});
+    console.log(session, 'session');
     // NEXTAUTH_SECRET을 설정하지 않은 경우 
     //  getToken에 비밀을 `secret`으로 전달해야 합니다.
     //JSON 웹 토큰을 사용하는 경우 getToken() 사용하여 JWT 암호 해독
@@ -14,20 +15,25 @@ export async function  middleware(req: NextRequest) {
     const pathname =req.nextUrl.pathname;//req.nextUrl.pathname 현재 경로를알 수 있음
     //로그인된 유저만 접근 가능
     if(pathname.startsWith('/user') && !session) {
-        return NextResponse.redirect(new URL('/auth/login',req.url));
+        return NextResponse.redirect(new URL('/login',req.url));
         //현재 경로가 /user로 시작하고 session이 없다면
         //로그인 /auth/login 로그인 페이지로 강제 리다이렉트
         //const url = new URL(url [, base]); new URL 사용법
     }
 
+
     //어드민 유저만 접근 가능
     //어드민 권한이 없다면 메인페이지로
-    if(pathname.startsWith('/admin') && (session?.role !== 'admin')) {
+    if(pathname.startsWith('/admin') && (session?.role !== 'Admin')) {
         return NextResponse.redirect(new URL('/', req.url));
     }
     
     //로그인된 유저는 로그인, 회원가입 페이지에 접근 불가
-    if(pathname.startsWith('/auth') && session) {
+    if(pathname.startsWith('/register') && session) {
+        return NextResponse.redirect(new URL('/', req.url));
+    }
+
+    if(pathname.startsWith('/login') && session) {
         return NextResponse.redirect(new URL('/', req.url));
     }
     
@@ -35,7 +41,7 @@ export async function  middleware(req: NextRequest) {
     //NextResponse미들웨어 체인을 계속 진행하는 NextResponse를 반환합니다.
 }
 
-export const config = {matcher : ['/admin/:path*', '/user/:path*']} 
+// export const config = {matcher : ['/admin/:path*', '/user/:path*']} 
 // matcher를 통해서 session 있는 경우에만 user와 admin경로애 접근가능
 //matcher 정의된 경로에만 접근가능하도록
 //env에  NEXTAUTH_SECRET 과  NEXTAUTH_URL 설정으로
