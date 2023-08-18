@@ -30,7 +30,7 @@ export const authOption :NextAuthOptions =  {
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-            const user = {id : '1', name:'test' ,email:'test@naver.com'}
+            const user = {id : '1', name:'test' ,email:'test@naver.com', role:'user'}
             // If no error and we have user data, return it
             if ( user) {
                 return user
@@ -42,6 +42,17 @@ export const authOption :NextAuthOptions =  {
     ],
     session: {
         strategy : 'jwt',
+    },
+    callbacks: {
+        async jwt({token, user} ){
+            console.log('token', token);
+            return {...token, ...user}
+        },
+        //만든 jwt함수에서 token, user가 session함수에서 받게됨!
+        async session({session, token}) {
+            session.user = token;
+            return session;
+        }
     }
 };
 

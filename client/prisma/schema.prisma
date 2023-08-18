@@ -46,6 +46,12 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+//어드민 권한을 추가하기위한 설정
+enum UserType {
+  User
+  Admin
+}
+
 model User {
   id             String    @id @default(cuid())
   name           String?
@@ -55,6 +61,10 @@ model User {
   hashedPassword String?
   accounts       Account[]
   sessions       Session[]
+
+  userType UserType @default(User)
+  //어드민 유저 권한을 추가하기위한 설정
+  //
 }
 
 model VerificationToken {
