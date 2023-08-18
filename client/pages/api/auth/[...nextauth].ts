@@ -43,9 +43,12 @@ export const authOption :NextAuthOptions =  {
     session: {
         strategy : 'jwt',
     },
+    jwt : {
+        secret : process.env.JWT_SECRET,
+        maxAge : 30 * 24 * 60 * 60 //30일
+    },
     callbacks: {
         async jwt({token, user} ){
-            console.log('token', token);
             return {...token, ...user}
         },
         //만든 jwt함수에서 token, user가 session함수에서 받게됨!

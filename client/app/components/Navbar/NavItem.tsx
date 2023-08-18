@@ -4,7 +4,6 @@ import {useSession, signIn, signOut} from 'next-auth/react';
 
 const NavItem:React.FC<{}> = () => {
     const {data: session, status} = useSession();
-    console.log(session, status);
     return (
         <div className='grid grid-cols-[200px_1fr] gap-44 mx-auto place-items-end text-sm'>
             <ul className='flex'>

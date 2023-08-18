@@ -10,4 +10,5 @@ declare module "next-auth" {
         } & DefaultSession['user']
         // next-auth에서 제공해주는 defaultSession 
     }
+
 }
