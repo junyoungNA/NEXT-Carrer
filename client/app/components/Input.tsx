@@ -22,6 +22,24 @@ const Input:React.FC<InputProps> = ({
 }) => {
     return (
         <div className='relative w-full'>
+            <label 
+                    className={`
+                        absolute
+                        pl-1
+                        text-base
+                        duration-150
+                        transform
+                        -translate-y-3
+                        top-4
+                        z-10
+                        origin-[0]
+                        peer-placeholder-shown:scale-100
+                        peer-placeholder-shown:translate-y-0
+                        peer-focus:-translate-y-4
+                        ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}
+                    `}
+                >
+                    {label}</label>
             <input 
                 id={id}
                 type={type}
@@ -29,10 +47,12 @@ const Input:React.FC<InputProps> = ({
                 placeholder=''
                 className={`    
                     w-full
-                    p-4
-                    pt-6
+                    p-3
+                    mt-9
                     bg-white
                     font-light
+                    border
+                    border-gray-500
                     rounded-md
                     outline-none
                     transition
@@ -42,22 +62,6 @@ const Input:React.FC<InputProps> = ({
                     ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
                     `}
                 />
-                <label 
-                    className={`
-                        absolute
-                        text-md
-                        duration-150
-                        transform
-                        -translate-y-3
-                        top-5
-                        z-10
-                        origin-[0]
-                        peer-placeholder-shown:scale-100
-                        peer-placeholder-shown:translate-y-0
-                        peer-focus:-translate-y-4
-                        ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}
-                    `}
-                ></label>
         </div>
     )
 }
