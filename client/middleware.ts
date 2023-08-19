@@ -5,7 +5,6 @@ export {default} from 'next-auth/middleware';
 
 export async function  middleware(req: NextRequest) {
     const session = await getToken({req, secret : process.env.JWT_SECRET});
-    console.log(session, 'session');
     // NEXTAUTH_SECRET을 설정하지 않은 경우 
     //  getToken에 비밀을 `secret`으로 전달해야 합니다.
     //JSON 웹 토큰을 사용하는 경우 getToken() 사용하여 JWT 암호 해독

@@ -1,8 +1,7 @@
 "use client";
 import React, { FormEvent, useState } from "react";
 import Link from "next/link";
-// import Inputgroup from "../components/Inputgroup";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; //페이지 이동을 위한 useRouter
 import Image from "next/image";
 import axios from "axios";
 import {useForm, FieldValues, SubmitHandler} from 'react-hook-form';
@@ -10,6 +9,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 
 const Register = () => {
+  const router = useRouter(); //next에서 제공해주는 routing기능 
   const [isLoading, setLoading] = useState(false);
   const {register, handleSubmit, formState : {
     errors
@@ -20,13 +20,12 @@ const Register = () => {
       password : '',
     }
   }); 
-  const router = useRouter();
 
   const onSubmit:SubmitHandler<FieldValues> = async (body) => {
       setLoading(true)
       try {
           const {data} =  await axios.post('/api/register',body);
-          router.push('/login');
+          router.push('/login'); //페이지 login 페이지로 이동
       }catch (error : any){
           console.log('error',error.response.data);
       } finally {

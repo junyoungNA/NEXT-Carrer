@@ -1,10 +1,10 @@
 import NextAuth, {NextAuthOptions} from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import KakaoProvider from "next-auth/providers/kakao";
 import CredentialsProvider from "next-auth/providers/credentials"
 import prisma from '../../../util/prismadb';
 import bcrypt from 'bcryptjs';
-import { NextResponse } from "next/server";
 
 // prismadb.ts 에서 공통으로 생성해서 가져오기
 // const prisma = new PrismaClient();
@@ -15,6 +15,10 @@ export const authOptions :NextAuthOptions =  {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        }),
+        KakaoProvider({
+            clientId: process.env.KAKAO_CLIENT_ID!,
+            clientSecret: process.env.KAKAO_CLIENT_SECRET!,
         }),
         CredentialsProvider({
         // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -27,10 +31,13 @@ export const authOptions :NextAuthOptions =  {
             email: { label: "Email", type: "text"},
             password: { label: "Password", type: "password" }
         },
+        
         async authorize(credentials, req) {
+            console.log(credentials, 'credentials');
                 if(!credentials?.email || !credentials?.password ) {
                     throw new Error('Invaild credentials')
                 }
+            
                 const user = await prisma.user.findUnique({
                     where : {
                         email: credentials.email

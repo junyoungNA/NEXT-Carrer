@@ -9,6 +9,7 @@ export  async function getSession () {
 export default async function getCurrentUser () {
     try {
         const session = await getSession();
+        console.log(session,'sessionget')
         //위에 생성한 함수를 호출 prisma에서 user정보 session을 가져옴
         //유저의 이메일 정보 없으면 return null
         if(!session?.user?.email){

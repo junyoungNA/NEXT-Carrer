@@ -80,8 +80,8 @@ const Login = () => {
             </Link>
           </small>
           <div className="flex flex-col items-center justify-center mt-8 ">  
-            <Image src='/images/kakao.png' alt='카카오 이미지' width={50} height={50}/>
-            <p className="pl-0.5 text-gray-500 text-xs mt-1">kakao</p>
+            <Image src='/images/kakao.png' alt='카카오 이미지' width={50} height={50} onClick={() => {signIn('kakao')}}/>
+            <p className="pl-0.5 text-gray-500 text-xs mt-1" >kakao</p>
             <Link href='/' className="mt-4 text-sm font-bold ">계정을 잊으셧나요?</Link>
             <hr className="w-full border-gray-300 mt-7"/>
             <div className="flex w-full mt-3 justify-evenly">

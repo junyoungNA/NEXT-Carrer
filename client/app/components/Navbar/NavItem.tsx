@@ -10,7 +10,7 @@ interface NavItemProps {
 
 
 const NavItem:React.FC<NavItemProps> = ({currentUser}) => {
-    console.log(currentUser);
+    // console.log(currentUser);
     return (
         <div className='grid grid-cols-[500px_1fr] place-items-end mx-auto text-sm'>
             <ul className='flex items-center pl-8 mx-auto'>
