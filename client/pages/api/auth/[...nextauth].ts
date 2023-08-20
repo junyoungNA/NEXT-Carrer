@@ -43,6 +43,7 @@ export const authOptions :NextAuthOptions =  {
                         email: credentials.email
                     }
                 })
+                console.log(user, 'useqwewqr');
                 if (!user || !user?.hashedPassword) {
                     //hashedpassword가 없으면 oauth로그인한 유저
                     throw new Error('Invalid credentials');
@@ -56,7 +57,8 @@ export const authOptions :NextAuthOptions =  {
                 if(!isCorrectPassword) {
                     throw new Error('Invalid credentials');
                 }
-                return user
+                return null
+                // return user
             }
         })
     ],
