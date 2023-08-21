@@ -22,7 +22,7 @@ const ImageUpload = ({
     return (
         <CldUploadWidget 
             onUpload={hnadleUpload}
-            uploadPreset={'ijijie'}
+            uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESETS}
             options={{
                 maxFiles: 1,
             }}
