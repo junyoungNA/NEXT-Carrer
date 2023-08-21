@@ -5,6 +5,7 @@ import Container from '@/app/components/Container';
 import React, { useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Heading from '@/app/components/Heading';
+import ImageUpload from '@/app/components/ImageUpload';
 
 const CommunityUploadpage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +25,16 @@ const CommunityUploadpage = () => {
         }
     });
 
+    //react-hook-form 에서 제공하는 watch함수
+    //useForm에 등록된 값이 변경되는것을 계속 감지한다.
+    const imageSrc = watch('imageSrc');
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         
+    }
+    const setCustomValue = (id : string,  value : any) => {
+            setValue(id, value);
+            //react-hook-form 제공함수 setValue
+            // 첫번째 인자는 input의 이름, 두번째는 event객체 자체를 넣어준다.
     }
     return (
         <Container>
@@ -39,6 +48,10 @@ const CommunityUploadpage = () => {
                         title ='Community Upload'
                         subtitle = 'Please upload your thoughts'
                     />
+                    <ImageUpload 
+                        onChange = {(value) => setCustomValue('imageSrc', value)}
+                        value = {imageSrc}
+                    />
                     <Input
                         id="title"
                         label="제목"
@@ -47,7 +60,7 @@ const CommunityUploadpage = () => {
                         errors={errors}
                         required
                     />
-                    <hr />
+                    <hr/>
                     <Input
                         id="description"
                         label="Description"
@@ -56,7 +69,7 @@ const CommunityUploadpage = () => {
                         errors={errors}
                         required
                     />
-                    <hr />
+                    <hr/>
                     <div 
                         className='
                         grid

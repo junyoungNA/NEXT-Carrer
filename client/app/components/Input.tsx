@@ -26,7 +26,8 @@ const Input:React.FC<InputProps> = ({
                     className={`
                         absolute
                         pl-1
-                        text-base
+                        text-lg
+                        font-semibold
                         duration-150
                         transform
                         -translate-y-3
@@ -36,7 +37,7 @@ const Input:React.FC<InputProps> = ({
                         peer-placeholder-shown:scale-100
                         peer-placeholder-shown:translate-y-0
                         peer-focus:-translate-y-4
-                        ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}
+                        ${errors[id] ? 'text-rose-500' : 'text-zinc-700'}
                     `}
                 >
                     {label}</label>
@@ -51,14 +52,14 @@ const Input:React.FC<InputProps> = ({
                     mt-9
                     bg-white
                     font-light
-                    border
+                    border-[1.5px]
                     border-gray-500
                     rounded-md
                     outline-none
                     transition
                     disabled:opacity-70
                     disabled:cursor-not-allowed
-                    ${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
+                    ${errors[id] ? 'border-rose-500' : 'border-neutral-400'}
                     ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
                     `}
                 />
