@@ -1,55 +1,54 @@
-'use client'
-import React, { FormEvent, useEffect, useState } from "react";
+"use client";
+import React, { FormEvent, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; //페이지 이동을 위한 useRouter
 import Image from "next/image";
-import Input from "../components/Input";
+import axios from "axios";
 import {useForm, FieldValues, SubmitHandler} from 'react-hook-form';
-import Button from "../components/Button";
-import { signIn } from "next-auth/react";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
-const Login = () => {
+const Register = () => {
+  const router = useRouter(); //next에서 제공해주는 routing기능 
   const [isLoading, setLoading] = useState(false);
-  const router = useRouter();
   const {register, handleSubmit, formState : {
     errors
   }} = useForm<FieldValues>({
     defaultValues : {
+      name : '',
       email :'',
       password : '',
     }
   }); 
 
   const onSubmit:SubmitHandler<FieldValues> = async (body) => {
-    setLoading(true);
-    try {
-      const data = await signIn('credentials', body);
-      console.log(data);
-      //next-auth 에서 제공하는 credentials를 인자로 줘야함
-      // router.push('/');
-    } catch(error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+      setLoading(true)
+      try {
+          const {data} =  await axios.post('/api/register',body);
+          router.push('/auth/login'); //페이지 login 페이지로 이동
+      }catch (error : any){
+          console.log('error',error.response.data);
+      } finally {
+          setLoading(false);
+      }
   }
 
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col items-center justify-center h-screen p-6">
-        <div className="w-10/12 p-10 mx-auto overflow-auto bg-white border-2 border-gray-200 rounded h-5/6 md:w-96 sm:w-96 hide-scrollbar ">
+        <div className="w-10/12 mx-auto overflow-auto bg-white border-2 border-gray-200 rounded p-9 h-5/6 md:w-96 mx-w sm:w-96 hide-scrollbar">
           <div>
             <div className="text-center ">
               <Link href={"/"} className="text-2xl font-bold ">
                 Next-Carrer
-              </Link>
+              </Link>   
               <p className="my-2">
-                환영합니다! 로그인을 하고 
-                <br /> 다음 커리어를 위해 성장하세요!
+                환영합니다! 회원가입을 하고 
+                <br /> 다음 커리어를 위해 성장하세요!!
               </p>
             </div>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form  onSubmit={handleSubmit(onSubmit)}>
             <Input
               id="email"
               label="Email"
@@ -59,29 +58,36 @@ const Login = () => {
               required
             />
             <Input
+              id="name"
+              label="Name"
+              disabled={isLoading}
+              errors={errors}
+              register={register}
+            />
+            <Input
               id="password"
               label="Password"
               type="password"
               disabled={isLoading}
               errors={errors}
               register={register}
-            />
-            <Button
-              label="로그인"/>
+              required
+              />
+            <Button label='회원가입'/>
           </form>
           <small>
-            계정이 없으신가요?
+            이미 가입하셨나요?
             <Link
-              href="/register"
+              href="/auth/login"
               className="font-bold text-blue-500 uppercase "
             >
               {" "}
-              회원가입
+              로그인
             </Link>
           </small>
           <div className="flex flex-col items-center justify-center mt-8 ">  
-            <Image src='/images/kakao.png' alt='카카오 이미지' width={50} height={50} onClick={() => {signIn('kakao')}}/>
-            <p className="pl-0.5 text-gray-500 text-xs mt-1" >kakao</p>
+            <Image src='/images/kakao.png' alt='카카오 이미지' width={50} height={50}/>
+            <p className="pl-0.5 text-gray-500 text-xs mt-1">kakao</p>
             <Link href='/' className="mt-4 text-sm font-bold ">계정을 잊으셧나요?</Link>
             <hr className="w-full border-gray-300 mt-7"/>
             <div className="flex w-full mt-3 justify-evenly">
@@ -90,10 +96,11 @@ const Login = () => {
             </div>
             <p className="pr-2 mt-4 text-xs text-gray-900 font-extralight">© NEXTCareer.inc</p>
           </div>
+        
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

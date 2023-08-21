@@ -12,10 +12,6 @@ import bcrypt from 'bcryptjs';
 export const authOptions :NextAuthOptions =  {
     adapter: PrismaAdapter(prisma),
     providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        }),
         KakaoProvider({
             clientId: process.env.KAKAO_CLIENT_ID!,
             clientSecret: process.env.KAKAO_CLIENT_SECRET!,
@@ -32,8 +28,7 @@ export const authOptions :NextAuthOptions =  {
             password: { label: "Password", type: "password" }
         },
         
-        async authorize(credentials, req) {
-            console.log(credentials, 'credentials');
+        async authorize(credentials, req) {    
                 if(!credentials?.email || !credentials?.password ) {
                     throw new Error('Invaild credentials')
                 }
@@ -43,11 +38,11 @@ export const authOptions :NextAuthOptions =  {
                         email: credentials.email
                     }
                 })
-                console.log(user, 'useqwewqr');
                 if (!user || !user?.hashedPassword) {
                     //hashedpassword가 없으면 oauth로그인한 유저
                     throw new Error('Invalid credentials');
                 }
+        
             //user의 hasedPassword와 지금 입력한 password와 비교
                     const isCorrectPassword = await bcrypt.compare(
                     credentials.password,
@@ -57,8 +52,7 @@ export const authOptions :NextAuthOptions =  {
                 if(!isCorrectPassword) {
                     throw new Error('Invalid credentials');
                 }
-                return null
-                // return user
+                return user;
             }
         })
     ],
@@ -70,15 +64,28 @@ export const authOptions :NextAuthOptions =  {
         maxAge : 30 * 24 * 60 * 60 //30일
     },
     pages: {
-        signIn:'/login'
+        signIn:'/auth/login'
     },
     callbacks: {
-        async jwt({token, user} ){
+        async signIn({ user, account, profile, email, credentials }) {
+            // console.log(account, 'signaccount');
+            // console.log(profile, 'signprofile');
+            if(account?.type === 'oauth') {
+                delete account.refresh_token_expires_in;
+                user.hashedPassword = await bcrypt.hash(user.id, 12);
+                console.log('바뀜 account', account);
+            }
+            return true
+        },
+        async jwt({token, user, session} ){
             return {...token, ...user}
         },
         //만든 jwt함수에서 token, user가 session함수에서 받게됨!
-        async session({session, token}) {
-            session.user = token;
+        async session({session, user, token}) {
+            // console.log('sessionsession',session)
+            // console.log('sessiontoken',token)
+            // session.user = token;
+             // Send properties to the client, like an access_token and user id from a provider.
             return session;
         }
     }

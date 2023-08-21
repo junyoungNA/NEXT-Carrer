@@ -7,6 +7,7 @@ declare module "next-auth" {
             //Session안에 user 객체에 id, role프로퍼티를 추가,
             id? : string;
             role? : string;
+            hashedPassword? :string;
         } & DefaultSession['user']
         // next-auth에서 제공해주는 defaultSession 
     }

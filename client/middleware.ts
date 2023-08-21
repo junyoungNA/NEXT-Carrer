@@ -28,13 +28,13 @@ export async function  middleware(req: NextRequest) {
     }
     
     //로그인된 유저는 로그인, 회원가입 페이지에 접근 불가
-    if(pathname.startsWith('/register') && session) {
+    if(pathname.startsWith('/auth') && session) {
         return NextResponse.redirect(new URL('/', req.url));
     }
 
-    if(pathname.startsWith('/login') && session) {
-        return NextResponse.redirect(new URL('/', req.url));
-    }
+    // if(pathname.startsWith('/login') && session) {
+    //     return NextResponse.redirect(new URL('/', req.url));
+    // }
     
     return NextResponse.next();
     //NextResponse미들웨어 체인을 계속 진행하는 NextResponse를 반환합니다.
