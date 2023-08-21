@@ -19,8 +19,6 @@ const CommunityUploadpage = () => {
             title:'',
             description: '',
             category : '',
-            latitude: 33.5563,
-            longitude:126.79581,
             imageSrc:'',
             price:1
         }
