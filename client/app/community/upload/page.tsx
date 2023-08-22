@@ -8,9 +8,11 @@ import Heading from '@/app/components/Heading';
 import ImageUpload from '@/app/components/ImageUpload';
 import { categories } from '@/app/components/Categories/Categories';
 import CategoryInput from '@/app/components/Categories/CategoryInput';
-import { IconType } from 'react-icons';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const CommunityUploadpage = () => {
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
     const {register , handleSubmit, setValue, watch, formState : {
@@ -32,8 +34,20 @@ const CommunityUploadpage = () => {
     //useForm에 등록된 값이 변경되는것을 계속 감지한다.
     const category = watch('category'); //카테고리
     const imageSrc = watch('imageSrc');
+
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        
+        setIsLoading(true);
+
+        axios.post('/api/community', data)
+            .then(response => {
+                router.push(`/community/${response.data.id}`);
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
     }
     const setCustomValue = (id : string,  value : any) => {
             setValue(id, value);
@@ -88,7 +102,7 @@ const CommunityUploadpage = () => {
                         {categories.map((item ) => 
                             <div key={item.label} className='col-span-1'>
                                 <CategoryInput
-                                    onClick={() => setCustomValue('category', category)}
+                                    onClick={(category) => setCustomValue('category', category)}
                                     selected={category === item.path}
                                     label={item.label}
                                     icon ={item.icon}
