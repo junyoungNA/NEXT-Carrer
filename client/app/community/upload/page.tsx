@@ -6,6 +6,9 @@ import React, { useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Heading from '@/app/components/Heading';
 import ImageUpload from '@/app/components/ImageUpload';
+import { categories } from '@/app/components/Categories/Categories';
+import CategoryInput from '@/app/components/Categories/CategoryInput';
+import { IconType } from 'react-icons';
 
 const CommunityUploadpage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +30,7 @@ const CommunityUploadpage = () => {
 
     //react-hook-form 에서 제공하는 watch함수
     //useForm에 등록된 값이 변경되는것을 계속 감지한다.
+    const category = watch('category'); //카테고리
     const imageSrc = watch('imageSrc');
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         
@@ -81,6 +85,17 @@ const CommunityUploadpage = () => {
                         '
                     >
                         {/* Category  */}
+                        {categories.map((item ) => 
+                            <div key={item.label} className='col-span-1'>
+                                <CategoryInput
+                                    onClick={() => setCustomValue('category', category)}
+                                    selected={category === item.path}
+                                    label={item.label}
+                                    icon ={item.icon}
+                                    path={item.path}
+                                />
+                            </div>
+                        )}
                     </div>
                     <Button label='커뮤니티 생성하기'></Button>
                 </form>
