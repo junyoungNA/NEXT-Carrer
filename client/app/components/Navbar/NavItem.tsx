@@ -43,21 +43,16 @@ const NavItem:React.FC<NavItemProps> = ({currentUser}) => {
                     </button>
                 </li>
                 :
-                <li className="w-20 px-2 pt-1 text-center text-blue-500 border border-blue-500 rounded-sm "> 
-                    <button
-                        onClick={() => signIn() }
-                    >
-                        로그인
-                    </button>
-                </li> 
+                <>
+                    <li className="px-2 pt-1 font-bold text-center text-blue-500"> 
+                        <button
+                            onClick={() => signIn() }
+                        >
+                            로그인 / 회원가입
+                        </button>
+                    </li> 
+                </>
                 }
-                <li className="w-20 px-2 pt-1 text-center text-white bg-gray-400 rounded">
-                    <Link
-                    href="/register"
-                    >
-                        회원가입
-                    </Link>
-                </li>
             </ul>
         </div>
     )
