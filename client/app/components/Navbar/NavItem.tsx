@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { signIn, signOut} from 'next-auth/react';
 import { User } from '@prisma/client';
+import {GrUserManager} from 'react-icons/gr'
 
 
 interface NavItemProps {
@@ -36,14 +37,19 @@ const NavItem:React.FC<NavItemProps> = ({currentUser}) => {
                 
                 {currentUser
                     ?
-                    <li className='w-20 px-2 pt-1 text-center text-blue-500 '>
-                    <button 
-                        onClick={() => signOut()}>
-                        로그아웃
-                    </button>
-                </li>
+                    <>
+                        <li className='w-20 px-2 pt-1 text-center text-blue-500 '>
+                            <button 
+                                onClick={() => signOut()}>
+                                로그아웃
+                            </button>
+                        </li>
+                        <li>
+                            <GrUserManager  className='w-6 h-6 border border-black rounded-full cursor-pointer'/>
+                        </li>
+                    </>
+                    
                 :
-                <>
                     <li className="px-2 pt-1 font-bold text-center text-blue-500"> 
                         <button
                             onClick={() => signIn() }
@@ -51,7 +57,6 @@ const NavItem:React.FC<NavItemProps> = ({currentUser}) => {
                             로그인 / 회원가입
                         </button>
                     </li> 
-                </>
                 }
             </ul>
         </div>
