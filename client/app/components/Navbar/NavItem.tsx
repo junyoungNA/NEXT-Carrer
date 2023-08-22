@@ -13,7 +13,7 @@ const NavItem:React.FC<NavItemProps> = ({currentUser}) => {
     console.log(currentUser, 'currentUser');
     return (
         <div className='grid grid-cols-[500px_1fr] place-items-end mx-auto text-sm'>
-            <ul className='flex items-center pl-8 mx-auto'>
+            <ul className='flex items-center mx-auto font-bold'>
                 <li> 
                     <Link 
                         href={'/companyList'} 
@@ -36,7 +36,7 @@ const NavItem:React.FC<NavItemProps> = ({currentUser}) => {
                 
                 {currentUser
                     ?
-                    <li className='w-20 px-2 pt-1 text-center text-blue-500 border border-blue-500 rounded-sm'>
+                    <li className='w-20 px-2 pt-1 text-center text-blue-500 '>
                     <button 
                         onClick={() => signOut()}>
                         로그아웃
