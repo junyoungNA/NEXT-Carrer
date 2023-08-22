@@ -1,6 +1,6 @@
-import Carousel from "./components/Carousel";
-import { SWRConfig } from 'swr';
-import PostAddBox from "./components/PostAddBox";
+import Carousel from "../components/Carousel";
+import PostAddBox from "../components/PostAddBox";
+import getCommunities, { CommunityParams } from "../actions/getCommunity";
 
 const CaroulselIMG = [
   {img :'/images/wanted.webp',title : '라이프스타일 커머스의 새로운 기준', text : '뷰티셀렉션에서 전 직군 채용 중!'},
@@ -8,7 +8,13 @@ const CaroulselIMG = [
   {img :'/images/wanted4.webp',title : '이번주 신규 포지션', text : '눈여겨볼 이번 주 채용공고를 소개합니다.'},
 ]
 
-const Home = () =>  {
+interface HomeProps  {
+    searchParams : CommunityParams
+}
+
+const Home = async ({searchParams} : HomeProps) =>  {
+  const communities = await getCommunities(searchParams);
+  console.log(communities);
   return (
     // <SWRConfig value={{fetcher}}>
       <main className="mt-10 hide-scrollbar">

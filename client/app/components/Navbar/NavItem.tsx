@@ -45,7 +45,7 @@ const NavItem:React.FC<NavItemProps> = ({currentUser}) => {
                             </button>
                         </li>
                         <li>
-                            <GrUserManager  className='w-6 h-6 border border-black rounded-full cursor-pointer'/>
+                            <GrUserManager  className='border border-black rounded-full cursor-pointer h-7 w-7'/>
                         </li>
                     </>
                     
