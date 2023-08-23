@@ -35,13 +35,13 @@ const Home = async ({searchParams} : HomeProps) =>  {
           {/* 커뮤니티 */}
           <section>
             {
-              communities?.data.length === 1
+              communities?.data.length === 0
                 ?
                 <EmptyState 
                   title='작성된 커뮤니티가 없습니다.'
                   subTitle="지금 커뮤니티를 작성해보세요"/>
                 :
-                  <div className="grid grid-cols-1 gap-8 pt-12 sm:grid-cols-2 md:grid-cols-3 lg-grid-col-4 2xl-grid-cols-6">
+                  <div className="grid grid-cols-1 pt-12 gap-14 sm:grid-cols-2 md:grid-cols-4 lg:-grid-col-5 2xl-grid-cols-6">
                     {communities.data.map((community) => 
                       <CommunityCard 
                         currentUser={currentUser}
