@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import { Roboto, Noto_Sans_KR } from "next/font/google"; // Roboto와 한글 NotoSans를 사용합니다.
 import { cls } from "../util/cls";
 import getCurrentUser from "./actions/getCurrentUser";
+import ToastProvider from "./components/ToastProvider";
 
 const notoSansKr = Noto_Sans_KR({
   // preload: true, 기본값
@@ -37,6 +38,7 @@ export default async function RootLayout({
     <html lang="en">
         <body className={`${cls(inter.className , notoSansKr.className, roboto.variable)}`}>
             <Navbar  currentUser={currentUser}/>
+            <ToastProvider/>
             {children}
         </body>
     </html>
