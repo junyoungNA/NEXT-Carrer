@@ -16,6 +16,7 @@ const HeartBtn = ({
         communityId,
         currentUser,
     })
+    console.log(hasFavorite, 'favorites');
     return (
         <div
             onClick={toggleFavorite}

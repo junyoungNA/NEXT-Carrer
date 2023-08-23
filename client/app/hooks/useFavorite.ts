@@ -32,12 +32,12 @@ const useFavorite = ({communityId, currentUser} : UserFavorite) => {
 
             if(hasFavorite) {
                 //좋아요가 이미 있다면 지우기
-                request = () => axios.delete(`/api/favorites/${communityId}`);
+                request = async () => await axios.delete(`/api/favorites/${communityId}`);
             } else {
-                request = () => axios.post(`/api/favorites/${communityId}`);
+                request = async () => await axios.post(`/api/favorites/${communityId}`);
             }
 
-            await request;
+            await request(); //route 요청 결과 기다리기
             //좋아요가 반영된걸 환영에 바로 반영해주기위한 refresh
             router.refresh();
         } catch(error) {
