@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import React from 'react'
 import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
+import useFavorite from '../hooks/useFavorite';
 
 interface HaertButtonProps {
     communityId : string;
@@ -11,15 +12,21 @@ const HeartBtn = ({
     communityId ,
     currentUser
 }: HaertButtonProps) => {
+    const {hasFavorite, toggleFavorite} = useFavorite({
+        communityId,
+        currentUser,
+    })
     return (
-        <div className='relative transition cursor-pointer hover:opacity-80'>
+        <div
+            onClick={toggleFavorite}
+            className='relative transition cursor-pointer hover:opacity-80'>
             <AiOutlineHeart
                 size={24}
-                className='fill-white absolute too-[2px] right-[2px]' 
+                className='absolute fill-gray-300' 
             />
             <AiFillHeart
                 size={24}
-                className={'fill-rose-500  absolute too-[2px] right-[2px]'}
+                className={hasFavorite ? 'fill-rose-500' : 'fill-neutral-500'}
             />
         </div>
     )
