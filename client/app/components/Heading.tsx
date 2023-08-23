@@ -2,13 +2,13 @@ import React from 'react'
 
 interface HeadingProps {
     title : string;
-    subtitle? : string;
+    subTitle? : string;
     center? : boolean;
 }
 
 const Heading = ({
     title,
-    subtitle,
+    subTitle,
     center,
 } : HeadingProps) => {
     return (
@@ -17,7 +17,7 @@ const Heading = ({
                 {title}
             </div>
             <div className='mt-2 font-light text-neutral-500'>
-                {subtitle}
+                {subTitle}
             </div>
         </div>
     )

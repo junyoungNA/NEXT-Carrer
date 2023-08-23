@@ -1,6 +1,11 @@
 import Carousel from "../components/Carousel";
 import PostAddBox from "../components/PostAddBox";
 import getCommunities, { CommunityParams } from "../actions/getCommunity";
+import getCurrentUser from "../actions/getCurrentUser";
+import Container from "../components/Container";
+import CommunityCard from "../components/CommunityCard";
+import EmptyState from "../components/EmptyState";
+import FloatingBtn from "../components/FloatingBtn";
 
 const CaroulselIMG = [
   {img :'/images/wanted.webp',title : '라이프스타일 커머스의 새로운 기준', text : '뷰티셀렉션에서 전 직군 채용 중!'},
@@ -14,16 +19,42 @@ interface HomeProps  {
 
 const Home = async ({searchParams} : HomeProps) =>  {
   const communities = await getCommunities(searchParams);
-  console.log(communities);
+  const currentUser = await getCurrentUser();
   return (
     // <SWRConfig value={{fetcher}}>
       <main className="mt-10 hide-scrollbar">
+        {/* 캐러셀 */}
         <section>
           <Carousel images={CaroulselIMG}></Carousel>
         </section>
-        <section className='border-2 border-black w-[1024px] mx-auto my-10'>
-          <PostAddBox />
-        </section>
+        <Container>
+          {/* upload박스 */}
+          <section className='w-[1024px] mx-auto my-10'>
+            <PostAddBox />
+          </section>
+          {/* 커뮤니티 */}
+          <section>
+            {
+              communities?.data.length === 1
+                ?
+                <EmptyState 
+                  title='작성된 커뮤니티가 없습니다.'
+                  subTitle="지금 커뮤니티를 작성해보세요"/>
+                :
+                  <div className="grid grid-cols-1 gap-8 pt-12 sm:grid-cols-2 md:grid-cols-3 lg-grid-col-4 2xl-grid-cols-6">
+                    {communities.data.map((community) => 
+                      <CommunityCard 
+                        currentUser={currentUser}
+                        key ={community.id}
+                        community={community}
+                      />
+                    )}
+                  </div>
+            }
+            <FloatingBtn href='/'> + </FloatingBtn>
+          </section>
+        </Container>
+        
       </main>
     // </SWRConfig>
     
